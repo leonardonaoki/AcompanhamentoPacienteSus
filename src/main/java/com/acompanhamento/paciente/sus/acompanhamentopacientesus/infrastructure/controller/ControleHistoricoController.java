@@ -6,10 +6,10 @@ import com.acompanhamento.paciente.sus.acompanhamentopacientesus.domain.entity.C
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.ControleHistoricoDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.InsertControleHistoricoDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.mapper.IControleHistoricoPacienteMapper;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,7 +28,7 @@ public class ControleHistoricoController{
 
     @PostMapping()
     public ResponseEntity<ControleHistoricoDTO> registrarHistoricoPaciente(
-            @Validated @RequestBody InsertControleHistoricoDTO dto) {
+            @Valid @RequestBody InsertControleHistoricoDTO dto) {
         ControleHistoricoPacienteDomain domain = controleHistoricoPacienteMapper.toDomain(dto);
         ControleHistoricoDTO clienteInserido = registrarHistoricoPacienteUseCase.registrarHistoricoPaciente(domain);
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteInserido);
