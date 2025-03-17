@@ -1,7 +1,9 @@
 package com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure.gateway;
 
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.domain.entity.ControleHistoricoPacienteDomain;
-import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.ControleHistoricoDTO;
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.ControleHistoricoDTO;
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.InsertMessageDTO;
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.enums.StatusHistoricoPaciente;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure.entityjpa.ControleHistoricoPacienteEntity;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure.repository.IControleHistoricoPacienteRepository;
 
@@ -24,8 +26,19 @@ public class ControleHistoricoGateway implements IControleHistoricoGateway{
                 .orElseThrow(() -> new EntityNotFoundException(ERRO_ID_NAO_ENCONTRADO + id));
     }
     @Override
-    public ControleHistoricoDTO registrarHistoricoPaciente(ControleHistoricoPacienteDomain domain){
+    public InsertMessageDTO registrarHistoricoPaciente(ControleHistoricoPacienteDomain domain){
         ControleHistoricoPacienteEntity entitySalvo = controleHistoricoRepository.save(controleHistoricoPacienteMapper.toEntity(domain));
-        return controleHistoricoPacienteMapper.toDTO(entitySalvo);
+        return new InsertMessageDTO("ID de controle gerado: " + entitySalvo.getIdHistoricoPaciente());
+    }
+    @Override
+    public ControleHistoricoDTO atualizarStatusHistoricoPaciente(long id,StatusHistoricoPaciente status){
+        ControleHistoricoPacienteEntity entidadeEncontrada = controleHistoricoRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException(ERRO_ID_NAO_ENCONTRADO + id));
+
+        entidadeEncontrada.setStatusControle(status);
+
+        ControleHistoricoPacienteEntity entidadeSalva = controleHistoricoRepository.save(entidadeEncontrada);
+        return controleHistoricoPacienteMapper.toDTO(entidadeSalva);
+
     }
 }

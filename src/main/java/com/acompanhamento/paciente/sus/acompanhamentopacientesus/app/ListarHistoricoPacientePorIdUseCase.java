@@ -1,6 +1,6 @@
 package com.acompanhamento.paciente.sus.acompanhamentopacientesus.app;
 
-import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.ControleHistoricoDTO;
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.ControleHistoricoDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure.gateway.IControleHistoricoGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

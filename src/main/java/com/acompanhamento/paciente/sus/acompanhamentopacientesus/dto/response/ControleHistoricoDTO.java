@@ -1,4 +1,4 @@
-package com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto;
+package com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response;
 
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.enums.StatusHistoricoPaciente;
 

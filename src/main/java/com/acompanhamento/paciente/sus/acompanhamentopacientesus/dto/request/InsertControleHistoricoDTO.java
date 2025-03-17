@@ -1,4 +1,4 @@
-package com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto;
+package com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.request;
 
 import jakarta.validation.constraints.Positive;
 
