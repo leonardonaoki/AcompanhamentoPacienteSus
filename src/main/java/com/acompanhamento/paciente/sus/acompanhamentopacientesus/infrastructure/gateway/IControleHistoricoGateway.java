@@ -6,7 +6,7 @@ import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.In
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.enums.StatusHistoricoPaciente;
 
 public interface IControleHistoricoGateway {
-    ControleHistoricoDTO listarHistoricoPacientePorId(long id);
+    ControleHistoricoDTO listarHistoricoPacientePorId(long idPaciente);
     InsertMessageDTO registrarHistoricoPaciente(ControleHistoricoPacienteDomain domain);
     ControleHistoricoDTO atualizarStatusHistoricoPaciente(long id, StatusHistoricoPaciente status);
 }

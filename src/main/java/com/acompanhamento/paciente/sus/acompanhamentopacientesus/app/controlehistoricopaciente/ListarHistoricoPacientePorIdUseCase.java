@@ -1,4 +1,4 @@
-package com.acompanhamento.paciente.sus.acompanhamentopacientesus.app;
+package com.acompanhamento.paciente.sus.acompanhamentopacientesus.app.controlehistoricopaciente;
 
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.ControleHistoricoDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure.gateway.IControleHistoricoGateway;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class ListarHistoricoPacientePorIdUseCase {
     private final IControleHistoricoGateway controleHistoricoGateway;
 
-    public ControleHistoricoDTO listarPacientePorId(long id){
-        return controleHistoricoGateway.listarHistoricoPacientePorId(id);
+    public ControleHistoricoDTO listarPacientePorId(long idPaciente){
+        return controleHistoricoGateway.listarHistoricoPacientePorId(idPaciente);
     }
 }

@@ -39,13 +39,13 @@ public class PacienteMapper implements IPacienteMapper {
     @Override
     public PacienteDomain toDomain(PacienteDTO pacienteDTO) {
         PacienteDomain domain = new PacienteDomain();
-        domain.setIdPaciente(pacienteDTO.getIdPaciente());
-        domain.setNome(pacienteDTO.getNome());
-        domain.setCpf(pacienteDTO.getCpf());
-        domain.setEndereco(pacienteDTO.getEndereco());
-        domain.setDataNascimento(pacienteDTO.getDataNascimento());
-        domain.setDataCadastro(pacienteDTO.getDataCadastro());
-        domain.setDataAtualizacao(pacienteDTO.getDataAtualizacao());
+        domain.setIdPaciente(pacienteDTO.idPaciente());
+        domain.setNome(pacienteDTO.nome());
+        domain.setCpf(pacienteDTO.cpf());
+        domain.setEndereco(pacienteDTO.endereco());
+        domain.setDataNascimento(pacienteDTO.dataNascimento());
+        domain.setDataCadastro(pacienteDTO.dataCadastro());
+        domain.setDataAtualizacao(pacienteDTO.dataAtualizacao());
         return domain;
     }
 

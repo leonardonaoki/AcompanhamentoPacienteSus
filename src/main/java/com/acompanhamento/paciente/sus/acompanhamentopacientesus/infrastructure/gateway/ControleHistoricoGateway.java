@@ -12,6 +12,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Component
 @RequiredArgsConstructor
 public class ControleHistoricoGateway implements IControleHistoricoGateway{
@@ -20,10 +22,10 @@ public class ControleHistoricoGateway implements IControleHistoricoGateway{
     private final IControleHistoricoPacienteMapper controleHistoricoPacienteMapper;
 
     @Override
-    public ControleHistoricoDTO listarHistoricoPacientePorId(long id){
-        return controleHistoricoRepository.findById(id)
+    public ControleHistoricoDTO listarHistoricoPacientePorId(long idPaciente){
+        return controleHistoricoRepository.findById(idPaciente)
                 .map(controleHistoricoPacienteMapper::toDTO)
-                .orElseThrow(() -> new EntityNotFoundException(ERRO_ID_NAO_ENCONTRADO + id));
+                .orElseThrow(() -> new EntityNotFoundException(ERRO_ID_NAO_ENCONTRADO + idPaciente));
     }
     @Override
     public InsertMessageDTO registrarHistoricoPaciente(ControleHistoricoPacienteDomain domain){
@@ -31,11 +33,15 @@ public class ControleHistoricoGateway implements IControleHistoricoGateway{
         return new InsertMessageDTO("ID de controle gerado: " + entitySalvo.getIdHistoricoPaciente());
     }
     @Override
-    public ControleHistoricoDTO atualizarStatusHistoricoPaciente(long id,StatusHistoricoPaciente status){
+    public ControleHistoricoDTO atualizarStatusHistoricoPaciente(long id,StatusHistoricoPaciente novoStatus){
         ControleHistoricoPacienteEntity entidadeEncontrada = controleHistoricoRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException(ERRO_ID_NAO_ENCONTRADO + id));
 
-        entidadeEncontrada.setStatusControle(status);
+        if(entidadeEncontrada.getStatusControle().equals(novoStatus))
+            throw new IllegalArgumentException("Não é possível atualizar um registro para o mesmo status");
+
+        entidadeEncontrada.setStatusControle(novoStatus);
+        entidadeEncontrada.setDataAtualizacao(LocalDateTime.now());
 
         ControleHistoricoPacienteEntity entidadeSalva = controleHistoricoRepository.save(entidadeEncontrada);
         return controleHistoricoPacienteMapper.toDTO(entidadeSalva);
