@@ -1,6 +1,7 @@
 package com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure.controller;
 
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.app.controlehistoricopaciente.AtualizarStatusHistoricoPacienteUseCase;
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.app.controlehistoricopaciente.ListarHistoricoPacientePorIdControleUseCase;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.app.controlehistoricopaciente.ListarHistoricoPacientePorIdUseCase;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.app.controlehistoricopaciente.RegistrarHistoricoPacienteUseCase;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.domain.entity.ControleHistoricoPacienteDomain;
@@ -16,20 +17,33 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @RequestMapping ("/controlehistorico")
 @RequiredArgsConstructor
 public class ControleHistoricoController{
     private final ListarHistoricoPacientePorIdUseCase listarHistoricoPacientePorIdUseCase;
+    private final ListarHistoricoPacientePorIdControleUseCase listarHistoricoPacientePorIdControleUseCase;
     private final RegistrarHistoricoPacienteUseCase registrarHistoricoPacienteUseCase;
     private final AtualizarStatusHistoricoPacienteUseCase atualizarStatusHistoricoPacienteUseCase;
     private final IControleHistoricoPacienteMapper controleHistoricoPacienteMapper;
 
-    @GetMapping("/{idPaciente}")
-    public ResponseEntity<ControleHistoricoDTO> listarHistoricoPacientePorId(@PathVariable long idPaciente){
-        return ResponseEntity.ok().body(listarHistoricoPacientePorIdUseCase.listarPacientePorId(idPaciente));
+    @GetMapping("/{idControle}")
+    public ResponseEntity<ControleHistoricoDTO> listarHistoricoPacientePorIdControle(@PathVariable Long idControle){
+        return ResponseEntity.ok()
+                .body(listarHistoricoPacientePorIdControleUseCase.listarPacientePorIdControle(idControle));
+    }
+
+    @GetMapping("/paciente/{idPaciente}")
+    public ResponseEntity<List<ControleHistoricoDTO>> listarHistoricoPacientePorId(@PathVariable Long idPaciente,
+                                                                                   @RequestParam(required = false) Long idUnidade,
+                                                                                   @RequestParam(required = false) LocalDateTime dataCadastro,
+                                                                                   @RequestParam(required = false) StatusHistoricoPaciente statusHistoricoPaciente
+                                                                             ){
+        return ResponseEntity.ok().body(listarHistoricoPacientePorIdUseCase.listarPacientePorId(idPaciente,idUnidade,dataCadastro,statusHistoricoPaciente));
     }
 
     @PostMapping()

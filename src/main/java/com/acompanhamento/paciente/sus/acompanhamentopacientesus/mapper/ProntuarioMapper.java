@@ -12,7 +12,7 @@ public class ProntuarioMapper implements IProntuarioMapper{
     @Override
     public ProntuarioDTO toDTO(ProntuarioPacienteEntity prontuario) {
         return new ProntuarioDTO(
-                prontuario.getId(),
+                prontuario.getIdHistoricoPaciente(),
                 prontuario.getEspecialidadeMedico(),
                 prontuario.getDataInicio(),
                 prontuario.getDataValidade(),
@@ -23,6 +23,7 @@ public class ProntuarioMapper implements IProntuarioMapper{
     @Override
     public ProntuarioPacienteDomain toDomain(InsertProntuarioDTO dto) {
         return new ProntuarioPacienteDomain(
+                dto.idControleHistorico(),
                 dto.especialidadeMedico(),
                 dto.dataInicio(),
                 dto.dataValidade(),
@@ -34,7 +35,7 @@ public class ProntuarioMapper implements IProntuarioMapper{
     @Override
     public ProntuarioPacienteEntity toEntity(ProntuarioPacienteDomain domain){
         return new ProntuarioPacienteEntity(
-                domain.getIdControle(),
+                domain.getIdControleHistorico(),
                 domain.getEspecialidadeMedico(),
                 domain.getDataInicio(),
                 domain.getDataValidade(),
