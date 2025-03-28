@@ -33,7 +33,9 @@ public class ProntuarioController {
                                                                                @RequestParam(required = false) String especialidade,
                                                                                @RequestParam(required = false) LocalDateTime data,
                                                                                @RequestParam(required = false) String solicitacao,
-                                                                             @RequestParam(required = false) String status){
+                                                                             @RequestParam(required = false) String status,
+                                                                             @RequestParam(value = "_offset", required = false, defaultValue = "0") int offset,
+                                                                             @RequestParam(value = "_limit", required = false, defaultValue = "10") int limit){
         StatusSolicitacaoProntuario statusFiltro = null;
         try{
             if(status != null && !status.isEmpty() && !status.isBlank())
@@ -42,7 +44,7 @@ public class ProntuarioController {
         catch (IllegalArgumentException erro){
             throw new IllegalArgumentException("Valor inválido para Status, valores possíveis: " + Arrays.toString(StatusSolicitacaoProntuario.values()));
         }
-        return ResponseEntity.ok().body(listarProntuarioPorIdUseCase.listarProntuarioPacientePorIdControle(idControle,especialidade,data,solicitacao,statusFiltro));
+        return ResponseEntity.ok().body(listarProntuarioPorIdUseCase.listarProntuarioPacientePorIdControle(idControle,especialidade,data,solicitacao,statusFiltro,offset,limit));
     }
 
     @PostMapping("/{idControle}")

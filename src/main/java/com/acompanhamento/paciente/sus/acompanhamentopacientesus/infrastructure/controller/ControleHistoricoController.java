@@ -41,9 +41,11 @@ public class ControleHistoricoController{
     public ResponseEntity<List<ControleHistoricoDTO>> listarHistoricoPacientePorId(@PathVariable Long idPaciente,
                                                                                    @RequestParam(required = false) Long idUnidade,
                                                                                    @RequestParam(required = false) LocalDateTime dataCadastro,
-                                                                                   @RequestParam(required = false) StatusHistoricoPaciente statusHistoricoPaciente
+                                                                                   @RequestParam(required = false) StatusHistoricoPaciente statusHistoricoPaciente,
+                                                                                   @RequestParam(value = "_offset", required = false, defaultValue = "0") int offset,
+                                                                                   @RequestParam(value = "_limit", required = false, defaultValue = "10") int limit
                                                                              ){
-        return ResponseEntity.ok().body(listarHistoricoPacientePorIdUseCase.listarPacientePorId(idPaciente,idUnidade,dataCadastro,statusHistoricoPaciente));
+        return ResponseEntity.ok().body(listarHistoricoPacientePorIdUseCase.listarPacientePorId(idPaciente,idUnidade,dataCadastro,statusHistoricoPaciente,offset,limit));
     }
 
     @PostMapping()

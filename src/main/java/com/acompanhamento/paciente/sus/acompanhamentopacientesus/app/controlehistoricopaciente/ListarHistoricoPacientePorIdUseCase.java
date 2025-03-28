@@ -17,7 +17,9 @@ public class ListarHistoricoPacientePorIdUseCase {
     public List<ControleHistoricoDTO> listarPacientePorId(Long idPaciente,
                                                           Long idUnidade,
                                                           LocalDateTime data,
-                                                          StatusHistoricoPaciente statusHistoricoPaciente){
-        return controleHistoricoGateway.listarHistoricoPacientePorId(idPaciente,idUnidade,data,statusHistoricoPaciente);
+                                                          StatusHistoricoPaciente statusHistoricoPaciente,
+                                                          int offset,
+                                                          int limit){
+        return controleHistoricoGateway.listarHistoricoPacientePorId(idPaciente,idUnidade,data,statusHistoricoPaciente,offset,limit);
     }
 }

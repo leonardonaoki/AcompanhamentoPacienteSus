@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface IControleHistoricoGateway {
     ControleHistoricoDTO listarHistoricoPacientePorIdControle(Long idControle);
-    List<ControleHistoricoDTO> listarHistoricoPacientePorId(Long idPaciente, Long idUnidade, LocalDateTime data, StatusHistoricoPaciente statusHistoricoPaciente);
+    List<ControleHistoricoDTO> listarHistoricoPacientePorId(Long idPaciente, Long idUnidade, LocalDateTime data, StatusHistoricoPaciente statusHistoricoPaciente,int offset,int limit);
     InsertMessageDTO registrarHistoricoPaciente(ControleHistoricoPacienteDomain domain);
     ControleHistoricoDTO atualizarStatusHistoricoPaciente(Long id, StatusHistoricoPaciente status);
 }

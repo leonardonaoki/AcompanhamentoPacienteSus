@@ -14,7 +14,7 @@ import java.util.List;
 public class ListarProntuarioPorIdUseCase {
     private final IProntuarioGateway prontuarioGateway;
 
-    public List<ProntuarioDTO> listarProntuarioPacientePorIdControle(long idControle, String especialidade, LocalDateTime data, String solicitacao, StatusSolicitacaoProntuario statusSolicitacaoProntuario){
-        return prontuarioGateway.listarProntuarioPacientePorIdControle(idControle,especialidade,data,solicitacao,statusSolicitacaoProntuario);
+    public List<ProntuarioDTO> listarProntuarioPacientePorIdControle(long idControle, String especialidade, LocalDateTime data, String solicitacao, StatusSolicitacaoProntuario statusSolicitacaoProntuario,int offset, int limit){
+        return prontuarioGateway.listarProntuarioPacientePorIdControle(idControle,especialidade,data,solicitacao,statusSolicitacaoProntuario,offset,limit);
     }
 }

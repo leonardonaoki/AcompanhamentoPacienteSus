@@ -14,6 +14,9 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -32,15 +35,15 @@ public class ProntuarioGateway implements IProntuarioGateway{
     private String urlControleProntuario;
 
     @Override
-    public List<ProntuarioDTO> listarProntuarioPacientePorIdControle(long idControle, String especialidade, LocalDateTime data, String solicitacao, StatusSolicitacaoProntuario statusSolicitacaoProntuario){
+    public List<ProntuarioDTO> listarProntuarioPacientePorIdControle(long idControle, String especialidade, LocalDateTime data, String solicitacao, StatusSolicitacaoProntuario statusSolicitacaoProntuario,int offset,int limit){
         Specification<ProntuarioPacienteEntity> spec = Specification
                 .where(ProntuarioSpecification.equalsIdHistoricoPaciente(idControle))
                 .and(ProntuarioSpecification.likeEspecialidadeMedico(especialidade))
                 .and(ProntuarioSpecification.greaterThanOrEqualDataInicio(data))
                 .and(ProntuarioSpecification.likeSolicitacao(solicitacao))
                 .and(ProntuarioSpecification.equalsStatusHistorico(statusSolicitacaoProntuario));
-
-        List<ProntuarioPacienteEntity> listaProntuario = prontuarioRepository.findAll(spec);
+        Pageable pageable = PageRequest.of(offset,limit);
+        Page<ProntuarioPacienteEntity> listaProntuario = prontuarioRepository.findAll(spec,pageable);
 
         if(listaProntuario.isEmpty())
             throw new EntityNotFoundException("Não foi possível encontrar registros com os filtros aplicados.");

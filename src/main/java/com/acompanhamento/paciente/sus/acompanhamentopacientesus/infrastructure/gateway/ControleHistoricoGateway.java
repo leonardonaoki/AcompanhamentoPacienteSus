@@ -11,6 +11,9 @@ import com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure.
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.mapper.IControleHistoricoPacienteMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
@@ -32,16 +35,14 @@ public class ControleHistoricoGateway implements IControleHistoricoGateway{
     }
 
     @Override
-    public List<ControleHistoricoDTO> listarHistoricoPacientePorId(Long idPaciente,
-                                                            Long idUnidade,
-                                                             LocalDateTime data,
-                                                             StatusHistoricoPaciente statusHistoricoPaciente){
+    public List<ControleHistoricoDTO> listarHistoricoPacientePorId(Long idPaciente,Long idUnidade,LocalDateTime data,StatusHistoricoPaciente statusHistoricoPaciente,int offset,int limit){
         Specification<ControleHistoricoPacienteEntity> spec = Specification
                 .where(ControleSpecification.equalsIdPaciente(idPaciente))
                 .and(ControleSpecification.equalsIdUnidade(idUnidade))
                 .and(ControleSpecification.greaterThanOrEqualDataCadastro(data))
                 .and(ControleSpecification.equalsStatusHistorico(statusHistoricoPaciente));
-        List<ControleHistoricoPacienteEntity> lista = controleHistoricoRepository.findAll(spec);
+        Pageable pageable = PageRequest.of(offset,limit);
+        Page<ControleHistoricoPacienteEntity> lista = controleHistoricoRepository.findAll(spec,pageable);
         if(lista.isEmpty())
             throw new EntityNotFoundException("Não foi possível encontrar registros com os filtros aplicados.");
 
