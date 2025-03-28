@@ -8,6 +8,7 @@ import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.request.Ins
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.InsertMessageDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.ProntuarioDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.enums.StatusSolicitacaoProntuario;
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure.controller.documentation.IProntuarioDocumentation;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.mapper.IProntuarioMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,15 +21,15 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
-@RequestMapping ("/prontuario")
 @RequiredArgsConstructor
-public class ProntuarioController {
+public class ProntuarioController implements IProntuarioDocumentation {
     private final ListarProntuarioPorIdUseCase listarProntuarioPorIdUseCase;
     private final RegistrarProntuarioPacienteUseCase registrarProntuarioPacienteUseCase;
     private final ListarHistoricoPacientePorIdControleUseCase listarHistoricoPacientePorIdControleUseCase;
     private final IProntuarioMapper prontuarioMapper;
 
-    @GetMapping("/{idControle}")
+
+    @Override
     public ResponseEntity<List<ProntuarioDTO>> listarProntuarioPacientePorIdControle(@PathVariable long idControle,
                                                                                @RequestParam(required = false) String especialidade,
                                                                                @RequestParam(required = false) LocalDateTime data,
@@ -47,7 +48,8 @@ public class ProntuarioController {
         return ResponseEntity.ok().body(listarProntuarioPorIdUseCase.listarProntuarioPacientePorIdControle(idControle,especialidade,data,solicitacao,statusFiltro,offset,limit));
     }
 
-    @PostMapping("/{idControle}")
+
+    @Override
     public ResponseEntity<InsertMessageDTO> registrarHistoricoPaciente(
             @PathVariable Long idControle,
             @Valid @RequestBody InsertProntuarioDTO dto) {

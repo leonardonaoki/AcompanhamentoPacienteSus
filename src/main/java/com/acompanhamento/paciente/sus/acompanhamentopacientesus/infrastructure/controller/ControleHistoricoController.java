@@ -10,6 +10,7 @@ import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.Co
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.request.InsertControleHistoricoDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.InsertMessageDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.enums.StatusHistoricoPaciente;
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure.controller.documentation.IControleHistoricoDocumentation;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.mapper.IControleHistoricoPacienteMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,22 +23,21 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
-@RequestMapping ("/controlehistorico")
 @RequiredArgsConstructor
-public class ControleHistoricoController{
+public class ControleHistoricoController implements IControleHistoricoDocumentation {
     private final ListarHistoricoPacientePorIdUseCase listarHistoricoPacientePorIdUseCase;
     private final ListarHistoricoPacientePorIdControleUseCase listarHistoricoPacientePorIdControleUseCase;
     private final RegistrarHistoricoPacienteUseCase registrarHistoricoPacienteUseCase;
     private final AtualizarStatusHistoricoPacienteUseCase atualizarStatusHistoricoPacienteUseCase;
     private final IControleHistoricoPacienteMapper controleHistoricoPacienteMapper;
 
-    @GetMapping("/{idControle}")
+    @Override
     public ResponseEntity<ControleHistoricoDTO> listarHistoricoPacientePorIdControle(@PathVariable Long idControle){
         return ResponseEntity.ok()
                 .body(listarHistoricoPacientePorIdControleUseCase.listarPacientePorIdControle(idControle));
     }
 
-    @GetMapping("/paciente/{idPaciente}")
+    @Override
     public ResponseEntity<List<ControleHistoricoDTO>> listarHistoricoPacientePorId(@PathVariable Long idPaciente,
                                                                                    @RequestParam(required = false) Long idUnidade,
                                                                                    @RequestParam(required = false) LocalDateTime dataCadastro,
@@ -48,14 +48,15 @@ public class ControleHistoricoController{
         return ResponseEntity.ok().body(listarHistoricoPacientePorIdUseCase.listarPacientePorId(idPaciente,idUnidade,dataCadastro,statusHistoricoPaciente,offset,limit));
     }
 
-    @PostMapping()
+    @Override
     public ResponseEntity<InsertMessageDTO> registrarHistoricoPaciente(
             @Valid @RequestBody InsertControleHistoricoDTO dto) {
         ControleHistoricoPacienteDomain domain = controleHistoricoPacienteMapper.toDomain(dto);
         InsertMessageDTO mensagem = registrarHistoricoPacienteUseCase.registrarHistoricoPaciente(domain);
         return ResponseEntity.status(HttpStatus.CREATED).body(mensagem);
     }
-    @PatchMapping("/{idControle}")
+
+    @Override
     public ResponseEntity<ControleHistoricoDTO> atualizarStatusHistoricoPaciente(
             @PathVariable long idControle,
             @Valid @RequestBody UpdateControleHistoricoDTO dto) {
