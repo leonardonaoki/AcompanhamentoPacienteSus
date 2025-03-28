@@ -5,7 +5,6 @@ import com.acompanhamento.paciente.sus.acompanhamentopacientesus.app.prontuariop
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.app.prontuariopaciente.RegistrarProntuarioPacienteUseCase;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.domain.entity.ProntuarioPacienteDomain;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.request.InsertProntuarioDTO;
-import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.ControleHistoricoDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.InsertMessageDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.ProntuarioDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.enums.StatusSolicitacaoProntuario;
@@ -17,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -33,19 +33,33 @@ public class ProntuarioController {
                                                                                @RequestParam(required = false) String especialidade,
                                                                                @RequestParam(required = false) LocalDateTime data,
                                                                                @RequestParam(required = false) String solicitacao,
-                                                                               @RequestParam(required = false) StatusSolicitacaoProntuario statusSolicitacaoProntuario){
-        return ResponseEntity.ok().body(listarProntuarioPorIdUseCase.listarProntuarioPacientePorIdControle(idControle,especialidade,data,solicitacao,statusSolicitacaoProntuario));
+                                                                             @RequestParam(required = false) String status){
+        StatusSolicitacaoProntuario statusFiltro = null;
+        try{
+            if(status != null && !status.isEmpty() && !status.isBlank())
+                statusFiltro = StatusSolicitacaoProntuario.valueOf(status);
+        }
+        catch (IllegalArgumentException erro){
+            throw new IllegalArgumentException("Valor inválido para Status, valores possíveis: " + Arrays.toString(StatusSolicitacaoProntuario.values()));
+        }
+        return ResponseEntity.ok().body(listarProntuarioPorIdUseCase.listarProntuarioPacientePorIdControle(idControle,especialidade,data,solicitacao,statusFiltro));
     }
 
     @PostMapping("/{idControle}")
     public ResponseEntity<InsertMessageDTO> registrarHistoricoPaciente(
             @PathVariable Long idControle,
             @Valid @RequestBody InsertProntuarioDTO dto) {
+        try{
+            StatusSolicitacaoProntuario.valueOf(dto.statusSolicitacaoProntuario());
+        }
+        catch (IllegalArgumentException erro){
+            throw new IllegalArgumentException("Valor inválido para statusSolicitacaoProntuario, valores possíveis: " + Arrays.toString(StatusSolicitacaoProntuario.values()));
+        }
         //Garante que o ID existe.
-        ControleHistoricoDTO controleHistoricoDTO = listarHistoricoPacientePorIdControleUseCase.listarPacientePorIdControle(idControle);
-        ProntuarioPacienteDomain domain = prontuarioMapper.toDomain(dto);
+        listarHistoricoPacientePorIdControleUseCase.listarPacientePorIdControle(idControle);
+        ProntuarioPacienteDomain domain = prontuarioMapper.toDomain(idControle,dto);
         InsertMessageDTO mensagem = registrarProntuarioPacienteUseCase
-                .registrarProntuarioPaciente(controleHistoricoDTO.idHistoricoPaciente(),domain);
+                .registrarProntuarioPaciente(domain);
         return ResponseEntity.status(HttpStatus.CREATED).body(mensagem);
     }
 }

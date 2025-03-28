@@ -1,6 +1,6 @@
 package com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure.entityjpa;
 
-import com.acompanhamento.paciente.sus.acompanhamentopacientesus.enums.StatusSolicitacaoProntuario;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@Entity
 public class ProntuarioPacienteEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,20 +21,5 @@ public class ProntuarioPacienteEntity {
     private LocalDateTime dataInicio;
     private LocalDateTime dataValidade;
     private String solicitacao;
-    private StatusSolicitacaoProntuario statusSolicitacaoProntuario;
-
-    public ProntuarioPacienteEntity(
-            long idHistoricoPaciente,
-            String especialidadeMedico,
-            LocalDateTime dataInicio,
-            LocalDateTime dataValidade,
-            String solicitacao,
-            StatusSolicitacaoProntuario statusSolicitacaoProntuario){
-        this.idHistoricoPaciente = idHistoricoPaciente;
-        this.especialidadeMedico = especialidadeMedico;
-        this.dataInicio = dataInicio;
-        this.dataValidade = dataValidade;
-        this.solicitacao = solicitacao;
-        this.statusSolicitacaoProntuario = statusSolicitacaoProntuario;
-    }
+    private String statusSolicitacaoProntuario;
 }

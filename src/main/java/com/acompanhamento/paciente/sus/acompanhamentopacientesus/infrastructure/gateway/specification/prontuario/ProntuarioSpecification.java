@@ -28,6 +28,6 @@ public class ProntuarioSpecification {
     }
     public static Specification<ProntuarioPacienteEntity> equalsStatusHistorico(StatusSolicitacaoProntuario statusSolicitacaoProntuario) {
         return (root, query, criteriaBuilder) ->
-                statusSolicitacaoProntuario == null ? null : criteriaBuilder.equal(root.get("statusSolicitacaoProntuario"), statusSolicitacaoProntuario);
+                statusSolicitacaoProntuario == null ? null : criteriaBuilder.equal(root.get("statusSolicitacaoProntuario"), statusSolicitacaoProntuario.toString());
     }
 }

@@ -20,7 +20,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class ControleHistoricoGateway implements IControleHistoricoGateway{
-    private static final String ERRO_ID_NAO_ENCONTRADO = "Não foi possível identificar o paciente com o ID ";
+    private static final String ERRO_ID_NAO_ENCONTRADO = "Não foi possível o ID ";
     private final IControleHistoricoPacienteRepository controleHistoricoRepository;
     private final IControleHistoricoPacienteMapper controleHistoricoPacienteMapper;
 
@@ -65,6 +65,5 @@ public class ControleHistoricoGateway implements IControleHistoricoGateway{
 
         ControleHistoricoPacienteEntity entidadeSalva = controleHistoricoRepository.save(entidadeEncontrada);
         return controleHistoricoPacienteMapper.toDTO(entidadeSalva);
-
     }
 }

@@ -1,14 +1,18 @@
 package com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.request;
 
-import com.acompanhamento.paciente.sus.acompanhamentopacientesus.enums.StatusSolicitacaoProntuario;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDateTime;
 
 public record InsertProntuarioDTO(
-        long idControleHistorico,
+        @NotBlank
+        @NotNull
         String especialidadeMedico,
-        LocalDateTime dataInicio,
         LocalDateTime dataValidade,
         String solicitacao,
-        StatusSolicitacaoProntuario statusSolicitacaoProntuario
+        @NotBlank
+        @NotNull
+        String statusSolicitacaoProntuario
 ) {
 }

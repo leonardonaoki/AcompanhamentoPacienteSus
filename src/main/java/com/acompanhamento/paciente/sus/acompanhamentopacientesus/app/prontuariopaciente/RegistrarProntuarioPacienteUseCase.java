@@ -6,13 +6,15 @@ import com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure.
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class RegistrarProntuarioPacienteUseCase {
     private final IProntuarioGateway prontuarioGateway;
 
-    public InsertMessageDTO registrarProntuarioPaciente(long idControle,ProntuarioPacienteDomain domain){
-        domain.setIdControle(idControle);
+    public InsertMessageDTO registrarProntuarioPaciente(ProntuarioPacienteDomain domain){
+        domain.setDataInicio(LocalDateTime.now());
         return prontuarioGateway.registrarProntuarioPaciente(domain);
     }
 }

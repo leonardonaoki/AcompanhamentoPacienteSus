@@ -53,9 +53,9 @@ public class ControleHistoricoController{
         InsertMessageDTO mensagem = registrarHistoricoPacienteUseCase.registrarHistoricoPaciente(domain);
         return ResponseEntity.status(HttpStatus.CREATED).body(mensagem);
     }
-    @PatchMapping("/{idPaciente}")
+    @PatchMapping("/{idControle}")
     public ResponseEntity<ControleHistoricoDTO> atualizarStatusHistoricoPaciente(
-            @PathVariable long idPaciente,
+            @PathVariable long idControle,
             @Valid @RequestBody UpdateControleHistoricoDTO dto) {
         StatusHistoricoPaciente novoStatus;
         try{
@@ -64,9 +64,7 @@ public class ControleHistoricoController{
         catch (IllegalArgumentException erro){
             throw new IllegalArgumentException("Valor inválido para um novoStatus, valores possíveis: " + Arrays.toString(StatusHistoricoPaciente.values()));
         }
-        ControleHistoricoDTO mensagem = atualizarStatusHistoricoPacienteUseCase.atualizarStatusHistoricoPaciente(idPaciente,novoStatus);
+        ControleHistoricoDTO mensagem = atualizarStatusHistoricoPacienteUseCase.atualizarStatusHistoricoPaciente(idControle,novoStatus);
         return ResponseEntity.status(HttpStatus.OK).body(mensagem);
-
     }
-
 }

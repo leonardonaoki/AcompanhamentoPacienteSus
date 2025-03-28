@@ -21,26 +21,25 @@ public class ProntuarioMapper implements IProntuarioMapper{
         );
     }
     @Override
-    public ProntuarioPacienteDomain toDomain(InsertProntuarioDTO dto) {
-        return new ProntuarioPacienteDomain(
-                dto.idControleHistorico(),
-                dto.especialidadeMedico(),
-                dto.dataInicio(),
-                dto.dataValidade(),
-                dto.solicitacao(),
-                dto.statusSolicitacaoProntuario()
-        );
+    public ProntuarioPacienteDomain toDomain(Long idControle,InsertProntuarioDTO dto) {
+        ProntuarioPacienteDomain domain = new ProntuarioPacienteDomain();
+        domain.setIdControleHistorico(idControle);
+        domain.setEspecialidadeMedico(dto.especialidadeMedico());
+        domain.setDataValidade(dto.dataValidade());
+        domain.setSolicitacao(dto.solicitacao());
+        domain.setStatusSolicitacaoProntuario(dto.statusSolicitacaoProntuario());
+        return domain;
     }
 
     @Override
     public ProntuarioPacienteEntity toEntity(ProntuarioPacienteDomain domain){
-        return new ProntuarioPacienteEntity(
-                domain.getIdControleHistorico(),
-                domain.getEspecialidadeMedico(),
-                domain.getDataInicio(),
-                domain.getDataValidade(),
-                domain.getSolicitacao(),
-                domain.getStatusSolicitacaoProntuario()
-        );
+        ProntuarioPacienteEntity entity = new ProntuarioPacienteEntity();
+        entity.setIdHistoricoPaciente(domain.getIdControleHistorico());
+        entity.setEspecialidadeMedico(domain.getEspecialidadeMedico());
+        entity.setDataInicio(domain.getDataInicio());
+        entity.setDataValidade(domain.getDataValidade());
+        entity.setSolicitacao(domain.getSolicitacao());
+        entity.setStatusSolicitacaoProntuario(domain.getStatusSolicitacaoProntuario());
+        return entity;
     }
 }

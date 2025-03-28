@@ -7,6 +7,6 @@ import com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure.
 
 public interface IProntuarioMapper {
     ProntuarioDTO toDTO(ProntuarioPacienteEntity prontuario);
-    ProntuarioPacienteDomain toDomain(InsertProntuarioDTO dto);
+    ProntuarioPacienteDomain toDomain(Long idControle,InsertProntuarioDTO dto);
     ProntuarioPacienteEntity toEntity(ProntuarioPacienteDomain domain);
 }
