@@ -1,6 +1,5 @@
 package com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure.gateway.specification.prontuario;
 
-import com.acompanhamento.paciente.sus.acompanhamentopacientesus.enums.StatusSolicitacaoProntuario;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure.entityjpa.ProntuarioPacienteEntity;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -26,8 +25,8 @@ public class ProntuarioSpecification {
         return (root, query, criteriaBuilder) ->
                 solicitacao == null ? null : criteriaBuilder.like(root.get("solicitacao"), "%" + solicitacao + "%");
     }
-    public static Specification<ProntuarioPacienteEntity> equalsStatusHistorico(StatusSolicitacaoProntuario statusSolicitacaoProntuario) {
+    public static Specification<ProntuarioPacienteEntity> equalsStatusHistorico(String statusSolicitacaoProntuario) {
         return (root, query, criteriaBuilder) ->
-                statusSolicitacaoProntuario == null ? null : criteriaBuilder.equal(root.get("statusSolicitacaoProntuario"), statusSolicitacaoProntuario.toString());
+                statusSolicitacaoProntuario == null ? null : criteriaBuilder.equal(root.get("statusSolicitacaoProntuario"), statusSolicitacaoProntuario);
     }
 }

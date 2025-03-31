@@ -1,5 +1,4 @@
 package com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response;
-
 import java.time.LocalDateTime;
 
 public record ProntuarioDTO

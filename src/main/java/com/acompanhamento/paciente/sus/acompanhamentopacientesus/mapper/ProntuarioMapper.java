@@ -3,6 +3,7 @@ package com.acompanhamento.paciente.sus.acompanhamentopacientesus.mapper;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.domain.entity.ProntuarioPacienteDomain;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.request.InsertProntuarioDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.ProntuarioDTO;
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.enums.StatusSolicitacaoProntuario;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure.entityjpa.ProntuarioPacienteEntity;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +28,7 @@ public class ProntuarioMapper implements IProntuarioMapper{
         domain.setEspecialidadeMedico(dto.especialidadeMedico());
         domain.setDataValidade(dto.dataValidade());
         domain.setSolicitacao(dto.solicitacao());
-        domain.setStatusSolicitacaoProntuario(dto.statusSolicitacaoProntuario());
+        domain.setStatusSolicitacaoProntuario(StatusSolicitacaoProntuario.valueOf(dto.statusSolicitacaoProntuario()));
         return domain;
     }
 
@@ -39,7 +40,7 @@ public class ProntuarioMapper implements IProntuarioMapper{
         entity.setDataInicio(domain.getDataInicio());
         entity.setDataValidade(domain.getDataValidade());
         entity.setSolicitacao(domain.getSolicitacao());
-        entity.setStatusSolicitacaoProntuario(domain.getStatusSolicitacaoProntuario());
+        entity.setStatusSolicitacaoProntuario(domain.getStatusSolicitacaoProntuario().toString());
         return entity;
     }
 }

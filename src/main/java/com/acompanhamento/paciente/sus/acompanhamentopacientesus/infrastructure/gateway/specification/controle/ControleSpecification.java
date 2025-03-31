@@ -4,8 +4,6 @@ import com.acompanhamento.paciente.sus.acompanhamentopacientesus.enums.StatusHis
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure.entityjpa.ControleHistoricoPacienteEntity;
 
 import org.springframework.data.jpa.domain.Specification;
-
-
 import java.time.LocalDateTime;
 public class ControleSpecification {
 

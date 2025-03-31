@@ -1,5 +1,6 @@
 package com.acompanhamento.paciente.sus.acompanhamentopacientesus.domain.entity;
 
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.enums.StatusSolicitacaoProntuario;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,5 +16,5 @@ public class ProntuarioPacienteDomain {
     private LocalDateTime dataInicio;
     private LocalDateTime dataValidade;
     private String solicitacao;
-    private String statusSolicitacaoProntuario;
+    private StatusSolicitacaoProntuario statusSolicitacaoProntuario;
 }

@@ -1,8 +1,8 @@
 package com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response;
 
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.enums.StatusHistoricoPaciente;
-
 import java.time.LocalDateTime;
+
 public record ControleHistoricoDTO
 (
     long idHistoricoPaciente,

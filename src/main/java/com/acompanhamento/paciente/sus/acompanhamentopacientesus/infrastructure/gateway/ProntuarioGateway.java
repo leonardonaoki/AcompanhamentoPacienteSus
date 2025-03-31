@@ -41,7 +41,7 @@ public class ProntuarioGateway implements IProntuarioGateway{
                 .and(ProntuarioSpecification.likeEspecialidadeMedico(especialidade))
                 .and(ProntuarioSpecification.greaterThanOrEqualDataInicio(data))
                 .and(ProntuarioSpecification.likeSolicitacao(solicitacao))
-                .and(ProntuarioSpecification.equalsStatusHistorico(statusSolicitacaoProntuario));
+                .and(ProntuarioSpecification.equalsStatusHistorico(statusSolicitacaoProntuario.toString()));
         Pageable pageable = PageRequest.of(offset,limit);
         Page<ProntuarioPacienteEntity> listaProntuario = prontuarioRepository.findAll(spec,pageable);
 
@@ -53,30 +53,26 @@ public class ProntuarioGateway implements IProntuarioGateway{
     @Override
     @Transactional
     public InsertMessageDTO registrarProntuarioPaciente(ProntuarioPacienteDomain domain){
-        ProntuarioPacienteEntity entitySalvo = prontuarioRepository.save(prontuarioMapper.toEntity(domain));
         WebClient webClient = WebClient.create(urlControleProntuario);
         UpdateControleHistoricoDTO updateBody = new UpdateControleHistoricoDTO(StatusHistoricoPaciente.EM_CURSO.toString());
-        if(StatusSolicitacaoProntuario.valueOf(domain.getStatusSolicitacaoProntuario())
-                .equals(StatusSolicitacaoProntuario.SOLICITADO)){
-            if(domain.getSolicitacao() == null || domain.getSolicitacao().isEmpty() || domain.getSolicitacao().isBlank())
-                throw new IllegalArgumentException("Não é possível mudar o estado para solicitado sem nenhuma solicitação informada.");
-        }else if (
-                StatusSolicitacaoProntuario.valueOf(domain.getStatusSolicitacaoProntuario())
-                .equals(StatusSolicitacaoProntuario.ENTREGUE) ||
-                StatusSolicitacaoProntuario.valueOf(domain.getStatusSolicitacaoProntuario())
-                        .equals(StatusSolicitacaoProntuario.EXAME_REALIZADO)){
+        if(domain.getStatusSolicitacaoProntuario().equals(StatusSolicitacaoProntuario.SOLICITADO) && (domain.getSolicitacao() == null || domain.getSolicitacao().isBlank())){
+            throw new IllegalArgumentException("Não é possível mudar o estado para solicitado sem nenhuma solicitação informada.");
+        }
+        else if (domain.getStatusSolicitacaoProntuario().equals(StatusSolicitacaoProntuario.ENTREGUE) ||
+                domain.getStatusSolicitacaoProntuario().equals(StatusSolicitacaoProntuario.EXAME_REALIZADO))
+        {
             if(domain.getSolicitacao() != null)
                 updateBody = new UpdateControleHistoricoDTO(StatusHistoricoPaciente.RETORNO.toString());
             else
                 updateBody = new UpdateControleHistoricoDTO(StatusHistoricoPaciente.ENCERRADO.toString());
         }
+        ProntuarioPacienteEntity entitySalvo = prontuarioRepository.save(prontuarioMapper.toEntity(domain));
         webClient.patch()
                 .uri("/controlehistorico/" + domain.getIdControleHistorico())
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(updateBody)
                 .retrieve()
-                .bodyToMono(String.class)
-                .block();
+                .bodyToMono(String.class);
 
         return new InsertMessageDTO("ID de registro do prontuário gerado: " + entitySalvo.getId());
     }

@@ -1,0 +1,104 @@
+package com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure.controller;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.app.controlehistoricopaciente.AtualizarStatusHistoricoPacienteUseCase;
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.app.controlehistoricopaciente.ListarHistoricoPacientePorIdControleUseCase;
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.app.controlehistoricopaciente.ListarHistoricoPacientePorIdUseCase;
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.app.controlehistoricopaciente.RegistrarHistoricoPacienteUseCase;
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.request.UpdateControleHistoricoDTO;
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.ControleHistoricoDTO;
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.request.InsertControleHistoricoDTO;
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.InsertMessageDTO;
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.enums.StatusHistoricoPaciente;
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.mapper.IControleHistoricoPacienteMapper;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import java.time.LocalDateTime;
+import java.util.List;
+
+@ExtendWith(MockitoExtension.class)
+class ControleHistoricoControllerTest {
+
+    @Mock
+    private ListarHistoricoPacientePorIdUseCase listarHistoricoPacientePorIdUseCase;
+
+    @Mock
+    private ListarHistoricoPacientePorIdControleUseCase listarHistoricoPacientePorIdControleUseCase;
+
+    @Mock
+    private RegistrarHistoricoPacienteUseCase registrarHistoricoPacienteUseCase;
+
+    @Mock
+    private AtualizarStatusHistoricoPacienteUseCase atualizarStatusHistoricoPacienteUseCase;
+
+    @Mock
+    private IControleHistoricoPacienteMapper controleHistoricoPacienteMapper;
+
+    @InjectMocks
+    private ControleHistoricoController controller;
+
+    private ControleHistoricoDTO controleHistoricoDTO;
+    private InsertMessageDTO insertMessageDTO;
+
+    @BeforeEach
+    void setUp() {
+        controleHistoricoDTO = new ControleHistoricoDTO(1,1,1,LocalDateTime.now(),LocalDateTime.now(),StatusHistoricoPaciente.PRIMEIRA_CONSULTA);
+        insertMessageDTO = new InsertMessageDTO("ID de controle gerado: 1");
+    }
+
+    @Test
+    void testListarHistoricoPacientePorIdControle_Sucesso() {
+        List<ControleHistoricoDTO> listaRetorno = List.of(controleHistoricoDTO);
+        when(listarHistoricoPacientePorIdUseCase.listarPacientePorId(1L,null,null,null,0,10)).thenReturn(listaRetorno);
+        ResponseEntity<List<ControleHistoricoDTO>> response = controller.listarHistoricoPacientePorId(1L,null,null,null,0,10);
+
+        assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+    @Test
+    void testListarHistoricoPacientePorId_Sucesso() {
+        when(listarHistoricoPacientePorIdControleUseCase.listarPacientePorIdControle(1L)).thenReturn(controleHistoricoDTO);
+        ResponseEntity<ControleHistoricoDTO> response = controller.listarHistoricoPacientePorIdControle(1L);
+
+        assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    void testRegistrarHistoricoPaciente_Sucesso() {
+        InsertControleHistoricoDTO insertDTO = new InsertControleHistoricoDTO(1,1);
+        when(controleHistoricoPacienteMapper.toDomain(insertDTO)).thenReturn(null);
+        when(registrarHistoricoPacienteUseCase.registrarHistoricoPaciente(any())).thenReturn(insertMessageDTO);
+
+        ResponseEntity<InsertMessageDTO> response = controller.registrarHistoricoPaciente(insertDTO);
+
+        assertNotNull(response.getBody());
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals("ID de controle gerado: 1", response.getBody().message());
+    }
+
+    @Test
+    void testAtualizarStatusHistoricoPaciente_Sucesso() {
+        UpdateControleHistoricoDTO updateDTO = new UpdateControleHistoricoDTO("RETORNO");
+        when(atualizarStatusHistoricoPacienteUseCase.atualizarStatusHistoricoPaciente(1L, StatusHistoricoPaciente.RETORNO)).thenReturn(controleHistoricoDTO);
+
+        ResponseEntity<ControleHistoricoDTO> response = controller.atualizarStatusHistoricoPaciente(1L, updateDTO);
+
+        assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+    @Test
+    void testAtualizarStatusHistoricoPaciente_Erro() {
+        UpdateControleHistoricoDTO updateDTO = new UpdateControleHistoricoDTO("NAO PERMITIDO");
+        assertThrows(IllegalArgumentException.class,() -> controller.atualizarStatusHistoricoPaciente(1L, updateDTO));
+    }
+}
+
