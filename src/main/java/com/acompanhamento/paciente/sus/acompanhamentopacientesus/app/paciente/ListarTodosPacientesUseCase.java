@@ -1,6 +1,6 @@
-package com.acompanhamento.paciente.sus.acompanhamentopacientesus.app;
+package com.acompanhamento.paciente.sus.acompanhamentopacientesus.app.paciente;
 
-import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.PacienteDTO;
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.PacienteDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure.gateway.IPacienteGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

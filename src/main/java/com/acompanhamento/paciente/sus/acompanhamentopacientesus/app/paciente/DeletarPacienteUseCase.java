@@ -1,4 +1,4 @@
-package com.acompanhamento.paciente.sus.acompanhamentopacientesus.app;
+package com.acompanhamento.paciente.sus.acompanhamentopacientesus.app.paciente;
 
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure.gateway.IPacienteGateway;
 import lombok.RequiredArgsConstructor;

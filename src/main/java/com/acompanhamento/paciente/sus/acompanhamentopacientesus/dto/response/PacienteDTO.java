@@ -1,4 +1,4 @@
-package com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto;
+package com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response;
 
 import java.time.LocalDateTime;
 

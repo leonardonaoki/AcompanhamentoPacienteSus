@@ -1,7 +1,7 @@
 package com.acompanhamento.paciente.sus.acompanhamentopacientesus.mapper;
 
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.domain.entity.PacienteDomain;
-import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.PacienteDTO;
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.PacienteDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure.entityjpa.PacienteEntity;
 
 import java.util.List;

@@ -1,7 +1,7 @@
-package com.acompanhamento.paciente.sus.acompanhamentopacientesus.app;
+package com.acompanhamento.paciente.sus.acompanhamentopacientesus.app.paciente;
 
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.domain.entity.PacienteDomain;
-import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.PacienteDTO;
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.PacienteDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure.gateway.IPacienteGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,12 +10,13 @@ import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
-public class AtualizarPacienteUseCase {
+public class RegistrarPacienteUseCase {
     private final IPacienteGateway pacienteGateway;
 
-    public PacienteDTO atualizarPaciente(long id, PacienteDomain domain) {
-        // Atualiza a data de atualização sempre que o paciente for modificado
+    public PacienteDTO registrarPaciente(PacienteDomain domain) {
+
+        domain.setDataCadastro(LocalDateTime.now());
         domain.setDataAtualizacao(LocalDateTime.now());
-        return pacienteGateway.atualizarPaciente(id, domain);
+        return pacienteGateway.registrarPaciente(domain);
     }
 }
