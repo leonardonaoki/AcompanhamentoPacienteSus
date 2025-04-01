@@ -16,6 +16,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controlador responsável por expor a API REST para operações de gerenciamento de unidades de saúde.
+ * <p>
+ * Essa classe lida com as requisições HTTP para listar, registrar, atualizar e deletar unidades de saúde,
+ * fornecendo os respectivos endpoints para interagir com o sistema.
+ * </p>
+ */
 @RestController
 @RequiredArgsConstructor
 public class UnidadeSaudeController implements IUnidadeSaudeDocumentation {
@@ -27,6 +34,15 @@ public class UnidadeSaudeController implements IUnidadeSaudeDocumentation {
     private final DeletarUnidadeSaudeUseCase deletarUnidadeSaudeUseCase;
     private final IUnidadeSaudeMapper unidadeSaudeMapper;
 
+    /**
+     * Endpoint para listar uma unidade de saúde específica com base no ID.
+     * <p>
+     * Esse método retorna as informações da unidade de saúde especificada pelo ID.
+     * </p>
+     *
+     * @param id O identificador único da unidade de saúde.
+     * @return O objeto {@link UnidadeSaudeDTO} contendo as informações da unidade de saúde.
+     */
     @Override
     @GetMapping("/unidade/{id}")
     public ResponseEntity<UnidadeSaudeDTO> listarUnidadeSaudePorId(@PathVariable long id) {
@@ -34,6 +50,15 @@ public class UnidadeSaudeController implements IUnidadeSaudeDocumentation {
         return ResponseEntity.ok().body(unidadeSaudeDTO);
     }
 
+    /**
+     * Endpoint para registrar uma nova unidade de saúde.
+     * <p>
+     * Esse método cria uma nova unidade de saúde no sistema a partir dos dados fornecidos no corpo da requisição.
+     * </p>
+     *
+     * @param dto O objeto {@link UnidadeSaudeDTO} contendo as informações da nova unidade de saúde.
+     * @return Uma resposta {@link ResponseEntity} com um código HTTP 201 e uma mensagem indicando que a unidade foi criada.
+     */
     @PostMapping("/unidade")
     @Override
     public ResponseEntity<InsertMessageDTO> registrarUnidadeSaude(@Valid @RequestBody UnidadeSaudeDTO dto) {
@@ -42,6 +67,16 @@ public class UnidadeSaudeController implements IUnidadeSaudeDocumentation {
         return ResponseEntity.status(HttpStatus.CREATED).body(mensagem);
     }
 
+    /**
+     * Endpoint para atualizar as informações de uma unidade de saúde existente.
+     * <p>
+     * Esse método permite atualizar as informações de uma unidade de saúde com base no ID e nas novas informações fornecidas.
+     * </p>
+     *
+     * @param id O identificador único da unidade de saúde a ser atualizada.
+     * @param dto O objeto {@link UnidadeSaudeDTO} contendo os novos dados da unidade de saúde.
+     * @return Uma resposta {@link ResponseEntity} com um código HTTP 200 e uma mensagem indicando que a unidade foi atualizada.
+     */
     @PutMapping("/unidade/{id}")
     @Override
     public ResponseEntity<InsertMessageDTO> atualizarUnidadeSaude(@PathVariable long id, @Valid @RequestBody UnidadeSaudeDTO dto) {
@@ -50,6 +85,15 @@ public class UnidadeSaudeController implements IUnidadeSaudeDocumentation {
         return ResponseEntity.status(HttpStatus.OK).body(mensagem);
     }
 
+    /**
+     * Endpoint para deletar uma unidade de saúde do sistema.
+     * <p>
+     * Esse método exclui a unidade de saúde especificada pelo ID.
+     * </p>
+     *
+     * @param id O identificador único da unidade de saúde a ser deletada.
+     * @return Uma resposta vazia com status HTTP 204, indicando que a unidade foi deletada com sucesso.
+     */
     @Override
     @DeleteMapping("/unidade/{id}")
     public ResponseEntity<InsertMessageDTO> deletarUnidadeSaude(@PathVariable long id) {
@@ -58,6 +102,16 @@ public class UnidadeSaudeController implements IUnidadeSaudeDocumentation {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(mensagem);
     }
 
+    /**
+     * Endpoint para listar todas as unidades de saúde com paginação.
+     * <p>
+     * Esse método retorna uma lista de unidades de saúde, com suporte à paginação através dos parâmetros `_offset` e `_limit`.
+     * </p>
+     *
+     * @param offset O índice inicial para a paginação. O valor padrão é 0.
+     * @param limit O número máximo de unidades de saúde a serem retornadas. O valor padrão é 10.
+     * @return Uma lista de objetos {@link UnidadeSaudeDTO} contendo as unidades de saúde.
+     */
     @Override
     @GetMapping("/unidade")
     public ResponseEntity<List<UnidadeSaudeDTO>> listarUnidadesSaude(
@@ -67,6 +121,7 @@ public class UnidadeSaudeController implements IUnidadeSaudeDocumentation {
         return ResponseEntity.ok().body(unidadesSaude);
     }
 
+    // Métodos restantes não implementados
     @Override
     public ResponseEntity<InsertMessageDTO> registrarUnidadeSaude(InsertUnidadeSaudeDTO dto) {
         return null;

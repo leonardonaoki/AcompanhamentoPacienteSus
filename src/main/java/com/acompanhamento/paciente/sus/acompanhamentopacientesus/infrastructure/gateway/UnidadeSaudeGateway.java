@@ -17,6 +17,19 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * Implementação do gateway responsável pela manipulação de dados das unidades de saúde.
+ *
+ * A classe {@link UnidadeSaudeGateway} implementa a interface {@link IUnidadeSaudeGateway} e é responsável por
+ * realizar operações de CRUD (Criar, Ler, Atualizar, Deletar) para a entidade Unidade de Saúde. A classe interage
+ * diretamente com o repositório {@link IUnidadeSaudeRepository} e mapeia os dados utilizando o {@link IUnidadeSaudeMapper}.
+ *
+ * A classe também contém métodos de interação com outros serviços externos, como demonstrado no método de registro.
+ *
+ * @author [Seu Nome]
+ * @version 1.0
+ * @since 2025-04-01
+ */
 @Component
 @RequiredArgsConstructor
 public class UnidadeSaudeGateway implements IUnidadeSaudeGateway {
@@ -27,7 +40,17 @@ public class UnidadeSaudeGateway implements IUnidadeSaudeGateway {
     @Value("${controleunidade-base-path}")
     private String urlControleUnidade;
 
-    // Método para listar as unidades de saúde com paginação
+    /**
+     * Lista todas as unidades de saúde com paginação.
+     *
+     * Este método retorna uma lista paginada de unidades de saúde. O número de unidades retornadas é controlado
+     * pelos parâmetros de offset (posição inicial) e limit (quantidade de unidades).
+     *
+     * @param offset Posição inicial na lista de unidades de saúde.
+     * @param limit Quantidade máxima de unidades de saúde a serem retornadas.
+     * @return Uma lista de {@link UnidadeSaudeDTO} com as unidades de saúde encontradas.
+     * @throws EntityNotFoundException Caso não haja unidades de saúde para a consulta.
+     */
     @Override
     public List<UnidadeSaudeDTO> listarUnidadesSaude(int offset, int limit) {
         Pageable pageable = PageRequest.of(offset, limit);
@@ -42,7 +65,16 @@ public class UnidadeSaudeGateway implements IUnidadeSaudeGateway {
                 .toList();
     }
 
-    // Método para buscar unidade por ID
+    /**
+     * Busca uma unidade de saúde pelo ID.
+     *
+     * Este método localiza uma unidade de saúde com base no ID fornecido e retorna um objeto {@link UnidadeSaudeDTO}.
+     * Caso a unidade não seja encontrada, uma exceção {@link EntityNotFoundException} é lançada.
+     *
+     * @param id O ID da unidade de saúde a ser buscada.
+     * @return O {@link UnidadeSaudeDTO} com os dados da unidade de saúde encontrada.
+     * @throws EntityNotFoundException Caso a unidade de saúde com o ID fornecido não seja encontrada.
+     */
     @Override
     public UnidadeSaudeDTO buscarUnidadePorId(long id) {
         UnidadeSaudeEntity unidadeEntity = unidadeSaudeRepository.findById(id)
@@ -51,7 +83,15 @@ public class UnidadeSaudeGateway implements IUnidadeSaudeGateway {
         return unidadeSaudeMapper.toDTO(unidadeEntity);
     }
 
-    // Método para registrar uma nova unidade de saúde
+    /**
+     * Registra uma nova unidade de saúde no sistema.
+     *
+     * Este método cria uma nova unidade de saúde no banco de dados a partir dos dados fornecidos no objeto
+     * {@link UnidadeSaudeDomain}. O método retorna uma mensagem de sucesso com o ID da unidade registrada.
+     *
+     * @param domain Objeto {@link UnidadeSaudeDomain} contendo os dados da nova unidade de saúde.
+     * @return Um {@link InsertMessageDTO} com uma mensagem de confirmação.
+     */
     @Override
     @Transactional
     public InsertMessageDTO registrarUnidade(UnidadeSaudeDomain domain) {
@@ -59,27 +99,47 @@ public class UnidadeSaudeGateway implements IUnidadeSaudeGateway {
 
         UnidadeSaudeEntity entitySalvo = unidadeSaudeRepository.save(unidadeEntity);
 
-        // Se necessário, pode-se interagir com outros serviços externos via WebClient aqui, similar ao exemplo no ProntuarioGateway.
+        // Se necessário, pode-se interagir com outros serviços externos aqui, via WebClient.
         // Caso contrário, podemos retornar diretamente uma mensagem de sucesso.
 
         return new InsertMessageDTO("Unidade de saúde registrada com ID: " + entitySalvo.getId());
     }
 
-    // Método para atualizar uma unidade de saúde
+    /**
+     * Atualiza os dados de uma unidade de saúde existente no sistema.
+     *
+     * Este método localiza uma unidade de saúde com base no ID fornecido e atualiza seus dados com as informações
+     * contidas no objeto {@link UnidadeSaudeDomain}. Se a unidade de saúde não for encontrada, uma exceção
+     * {@link EntityNotFoundException} é lançada. Após a atualização, uma mensagem de sucesso é retornada.
+     *
+     * @param id O ID da unidade de saúde a ser atualizada.
+     * @param domain Objeto {@link UnidadeSaudeDomain} contendo os novos dados da unidade de saúde.
+     * @return Um {@link InsertMessageDTO} com uma mensagem de sucesso.
+     * @throws EntityNotFoundException Caso a unidade de saúde com o ID fornecido não seja encontrada.
+     */
     @Override
     @Transactional
     public InsertMessageDTO atualizarUnidade(long id, UnidadeSaudeDomain domain) {
         UnidadeSaudeEntity unidadeEntity = unidadeSaudeRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Unidade de saúde não encontrada com o ID: " + id));
 
-        unidadeSaudeMapper.updateEntityFromDomain(domain, unidadeEntity); // Método para atualizar os campos da entidade com os dados do domain
+        unidadeSaudeMapper.updateEntityFromDomain(domain, unidadeEntity); // Atualiza os campos da entidade
 
         unidadeSaudeRepository.save(unidadeEntity);
 
         return new InsertMessageDTO("Unidade de saúde com ID: " + id + " foi atualizada.");
     }
 
-    // Método para deletar uma unidade de saúde
+    /**
+     * Deleta uma unidade de saúde do sistema.
+     *
+     * Este método localiza uma unidade de saúde com base no ID fornecido e a deleta do sistema. Se a unidade de saúde
+     * não for encontrada, uma exceção {@link EntityNotFoundException} é lançada. Após a exclusão, uma mensagem de sucesso é retornada.
+     *
+     * @param id O ID da unidade de saúde a ser deletada.
+     * @return Um {@link InsertMessageDTO} com uma mensagem de sucesso.
+     * @throws EntityNotFoundException Caso a unidade de saúde com o ID fornecido não seja encontrada.
+     */
     @Override
     @Transactional
     public InsertMessageDTO deletarUnidade(long id) {

@@ -15,6 +15,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controlador responsável por expor a API REST para operações de gerenciamento de pacientes.
+ * <p>
+ * Essa classe lida com as requisições HTTP para listar, registrar, atualizar e deletar pacientes,
+ * fornecendo os respectivos endpoints para interagir com o sistema.
+ * </p>
+ */
 @RestController
 @RequiredArgsConstructor
 public class PacienteController {
@@ -25,6 +32,14 @@ public class PacienteController {
     private final AtualizarPacienteUseCase atualizarPacienteUseCase;
     private final DeletarPacienteUseCase deletarPacienteUseCase;
 
+    /**
+     * Endpoint para listar todos os pacientes registrados no sistema.
+     * <p>
+     * Esse método retorna todos os pacientes no formato de uma lista de {@link PacienteDTO}.
+     * </p>
+     *
+     * @return Uma lista de objetos {@link PacienteDTO} com todos os pacientes registrados.
+     */
     @Operation(summary = "Lista todos os pacientes")
     @GetMapping
     public ResponseEntity<List<PacienteDTO>> listarPacientes() {
@@ -32,6 +47,15 @@ public class PacienteController {
         return ResponseEntity.ok(pacientes);
     }
 
+    /**
+     * Endpoint para obter as informações detalhadas de um paciente baseado no ID.
+     * <p>
+     * Esse método retorna as informações do paciente especificado pelo ID.
+     * </p>
+     *
+     * @param idPaciente O identificador único do paciente a ser encontrado.
+     * @return Um objeto {@link PacienteDTO} com as informações do paciente ou um status 404 caso não seja encontrado.
+     */
     @Operation(summary = "Obtém as informações de um paciente", description = "Retorna as informações detalhadas de um paciente com base no ID")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Paciente encontrado"),
@@ -43,6 +67,15 @@ public class PacienteController {
         return paciente != null ? ResponseEntity.ok(paciente) : ResponseEntity.notFound().build();
     }
 
+    /**
+     * Endpoint para registrar um novo paciente no sistema.
+     * <p>
+     * Esse método cria um novo paciente no sistema com os dados fornecidos no corpo da requisição.
+     * </p>
+     *
+     * @param dto O objeto {@link InsertPacienteDTO} contendo os dados do novo paciente.
+     * @return O objeto {@link PacienteDTO} representando o paciente criado com sucesso.
+     */
     @Operation(summary = "Registra um novo paciente")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Paciente criado com sucesso"),
@@ -55,6 +88,16 @@ public class PacienteController {
         return ResponseEntity.status(201).body(pacienteCriado);
     }
 
+    /**
+     * Endpoint para atualizar as informações de um paciente existente.
+     * <p>
+     * Esse método permite atualizar os dados de um paciente específico, baseado no ID.
+     * </p>
+     *
+     * @param idPaciente O identificador único do paciente a ser atualizado.
+     * @param dto O objeto {@link UpdatePacienteDTO} contendo os dados atualizados do paciente.
+     * @return O objeto {@link PacienteDTO} representando o paciente atualizado ou um status 404 caso o paciente não seja encontrado.
+     */
     @Operation(summary = "Atualiza as informações de um paciente")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Paciente atualizado com sucesso"),
@@ -67,6 +110,15 @@ public class PacienteController {
         return pacienteAtualizado != null ? ResponseEntity.ok(pacienteAtualizado) : ResponseEntity.notFound().build();
     }
 
+    /**
+     * Endpoint para deletar um paciente do sistema.
+     * <p>
+     * Esse método exclui um paciente com base no ID fornecido na URL.
+     * </p>
+     *
+     * @param idPaciente O identificador único do paciente a ser deletado.
+     * @return Uma resposta vazia com status 200, indicando que o paciente foi deletado com sucesso.
+     */
     @Operation(summary = "Deleta um paciente")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Paciente deletado com sucesso"),
