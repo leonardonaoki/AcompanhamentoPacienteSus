@@ -9,7 +9,6 @@ import com.acompanhamento.paciente.sus.acompanhamentopacientesus.mapper.IUnidade
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -36,10 +35,7 @@ public class UnidadeSaudeGateway implements IUnidadeSaudeGateway {
 
     private final IUnidadeSaudeRepository unidadeSaudeRepository;
     private final IUnidadeSaudeMapper unidadeSaudeMapper;
-
-    @Value("${controleunidade-base-path}")
-    private String urlControleUnidade;
-
+    private static final String ERRO_UNIDADE_NAO_EXISTE = "Unidade de saúde não encontrada com o ID: ";
     /**
      * Lista todas as unidades de saúde com paginação.
      *
@@ -78,7 +74,7 @@ public class UnidadeSaudeGateway implements IUnidadeSaudeGateway {
     @Override
     public UnidadeSaudeDTO buscarUnidadePorId(long id) {
         UnidadeSaudeEntity unidadeEntity = unidadeSaudeRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Unidade de saúde não encontrada com o ID: " + id));
+                .orElseThrow(() -> new EntityNotFoundException(ERRO_UNIDADE_NAO_EXISTE + id));
 
         return unidadeSaudeMapper.toDTO(unidadeEntity);
     }
@@ -121,7 +117,7 @@ public class UnidadeSaudeGateway implements IUnidadeSaudeGateway {
     @Transactional
     public InsertMessageDTO atualizarUnidade(long id, UnidadeSaudeDomain domain) {
         UnidadeSaudeEntity unidadeEntity = unidadeSaudeRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Unidade de saúde não encontrada com o ID: " + id));
+                .orElseThrow(() -> new EntityNotFoundException(ERRO_UNIDADE_NAO_EXISTE + id));
 
         unidadeSaudeMapper.updateEntityFromDomain(domain, unidadeEntity); // Atualiza os campos da entidade
 
@@ -144,7 +140,7 @@ public class UnidadeSaudeGateway implements IUnidadeSaudeGateway {
     @Transactional
     public InsertMessageDTO deletarUnidade(long id) {
         UnidadeSaudeEntity unidadeEntity = unidadeSaudeRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Unidade de saúde não encontrada com o ID: " + id));
+                .orElseThrow(() -> new EntityNotFoundException(ERRO_UNIDADE_NAO_EXISTE + id));
 
         unidadeSaudeRepository.delete(unidadeEntity);
 
