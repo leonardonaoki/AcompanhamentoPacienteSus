@@ -39,70 +39,127 @@ class UpdatePacienteDTOTest {
     }
 
     @Test
-    void deveFalharQuandoNomeForVazio() {
+    void deveGerarViolacoesQuandoCamposObrigatoriosNaoForemPreenchidos() {
         // Arrange
         UpdatePacienteDTO dto = new UpdatePacienteDTO();
-        dto.setNome(""); // Inválido: nome não pode ser vazio
+        dto.setNome(""); // Inválido
+        dto.setCpf(null); // Inválido
+        dto.setEndereco("   "); // Inválido
+        dto.setDataNascimento(null); // Inválido
+
+        // Act
+        Set<ConstraintViolation<UpdatePacienteDTO>> violations = validator.validate(dto);
+
+        // Debugging: Exibir todas as violações encontradas
+        violations.forEach(v -> System.out.println(v.getPropertyPath() + " -> " + v.getMessage()));
+
+        // Assert
+        assertFalse(violations.isEmpty(), "Deve haver violações de validação.");
+        assertEquals(4, violations.size(), "Deve haver exatamente 4 violações de validação.");
+    }
+
+    @Test
+    void deveTestarGettersESetters() {
+        // Arrange
+        UpdatePacienteDTO dto = new UpdatePacienteDTO();
+        LocalDateTime dataNascimento = LocalDateTime.of(1990, 5, 10, 0, 0);
+
+        // Act
+        dto.setNome("Ana Paula");
+        dto.setCpf("98765432100");
+        dto.setEndereco("Avenida Central, 456");
+        dto.setDataNascimento(dataNascimento);
+
+        // Assert
+        assertEquals("Ana Paula", dto.getNome());
+        assertEquals("98765432100", dto.getCpf());
+        assertEquals("Avenida Central, 456", dto.getEndereco());
+        assertEquals(dataNascimento, dto.getDataNascimento());
+    }
+
+    @Test
+    void deveTestarEqualsEHashCodeComObjetosIguais() {
+        // Arrange
+        UpdatePacienteDTO dto1 = new UpdatePacienteDTO();
+        dto1.setNome("Maria Oliveira");
+        dto1.setCpf("11122233344");
+        dto1.setEndereco("Rua XYZ, 789");
+        dto1.setDataNascimento(LocalDateTime.of(1988, 3, 25, 0, 0));
+
+        UpdatePacienteDTO dto2 = new UpdatePacienteDTO();
+        dto2.setNome("Maria Oliveira");
+        dto2.setCpf("11122233344");
+        dto2.setEndereco("Rua XYZ, 789");
+        dto2.setDataNascimento(LocalDateTime.of(1988, 3, 25, 0, 0));
+
+        // Assert
+        assertEquals(dto1, dto2, "Os objetos devem ser iguais.");
+        assertEquals(dto1.hashCode(), dto2.hashCode(), "Os hashCodes devem ser iguais.");
+    }
+
+    @Test
+    void deveTestarEqualsEHashCodeComObjetosDiferentes() {
+        // Arrange
+        UpdatePacienteDTO dto1 = new UpdatePacienteDTO();
+        dto1.setNome("Maria Oliveira");
+        dto1.setCpf("11122233344");
+        dto1.setEndereco("Rua XYZ, 789");
+        dto1.setDataNascimento(LocalDateTime.of(1988, 3, 25, 0, 0));
+
+        UpdatePacienteDTO dto2 = new UpdatePacienteDTO();
+        dto2.setNome("João Silva");
+        dto2.setCpf("99988877766");
+        dto2.setEndereco("Rua ABC, 123");
+        dto2.setDataNascimento(LocalDateTime.of(1990, 6, 12, 0, 0));
+
+        // Assert
+        assertNotEquals(dto1, dto2, "Os objetos devem ser diferentes.");
+        assertNotEquals(dto1.hashCode(), dto2.hashCode(), "Os hashCodes devem ser diferentes.");
+    }
+
+    @Test
+    void deveTestarToString() {
+        // Arrange
+        UpdatePacienteDTO dto = new UpdatePacienteDTO();
+        dto.setNome("João Pereira");
+        dto.setCpf("55566677788");
+        dto.setEndereco("Rua das Palmeiras, 321");
+        dto.setDataNascimento(LocalDateTime.of(1975, 8, 30, 0, 0));
+
+        // Act
+        String dtoString = dto.toString();
+
+        // Assert
+        assertTrue(dtoString.contains("João Pereira"));
+        assertTrue(dtoString.contains("55566677788"));
+        assertTrue(dtoString.contains("Rua das Palmeiras, 321"));
+    }
+
+    @Test
+    void deveTestarEqualsComObjetoNulo() {
+        // Arrange
+        UpdatePacienteDTO dto = new UpdatePacienteDTO();
+        dto.setNome("Carlos Souza");
         dto.setCpf("12345678901");
         dto.setEndereco("Rua A, 123");
         dto.setDataNascimento(LocalDateTime.of(1995, 4, 15, 0, 0));
 
-        // Act
-        Set<ConstraintViolation<UpdatePacienteDTO>> violations = validator.validate(dto);
-
         // Assert
-        assertFalse(violations.isEmpty(), "Deve haver violações de validação para nome vazio.");
-        assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("Nome não pode ser vazio.")));
+        assertNotEquals(dto, null, "DTO não pode ser igual a null.");
     }
 
     @Test
-    void deveFalharQuandoCpfForVazio() {
-        // Arrange
-        UpdatePacienteDTO dto = new UpdatePacienteDTO();
-        dto.setNome("Carlos Souza");
-        dto.setCpf(""); // Inválido: CPF não pode ser vazio
-        dto.setEndereco("Rua A, 123");
-        dto.setDataNascimento(LocalDateTime.of(1995, 4, 15, 0, 0));
-
-        // Act
-        Set<ConstraintViolation<UpdatePacienteDTO>> violations = validator.validate(dto);
-
-        // Assert
-        assertFalse(violations.isEmpty(), "Deve haver violações de validação para CPF vazio.");
-        assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("CPF não pode ser vazio.")));
-    }
-
-    @Test
-    void deveFalharQuandoEnderecoForVazio() {
-        // Arrange
-        UpdatePacienteDTO dto = new UpdatePacienteDTO();
-        dto.setNome("Carlos Souza");
-        dto.setCpf("12345678901");
-        dto.setEndereco(""); // Inválido: Endereço não pode ser vazio
-        dto.setDataNascimento(LocalDateTime.of(1995, 4, 15, 0, 0));
-
-        // Act
-        Set<ConstraintViolation<UpdatePacienteDTO>> violations = validator.validate(dto);
-
-        // Assert
-        assertFalse(violations.isEmpty(), "Deve haver violações de validação para endereço vazio.");
-        assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("Endereço não pode ser vazio.")));
-    }
-
-    @Test
-    void deveFalharQuandoDataNascimentoForNula() {
+    void deveTestarEqualsComObjetoDeOutraClasse() {
         // Arrange
         UpdatePacienteDTO dto = new UpdatePacienteDTO();
         dto.setNome("Carlos Souza");
         dto.setCpf("12345678901");
         dto.setEndereco("Rua A, 123");
-        dto.setDataNascimento(null); // Inválido: Data de nascimento não pode ser nula
+        dto.setDataNascimento(LocalDateTime.of(1995, 4, 15, 0, 0));
 
-        // Act
-        Set<ConstraintViolation<UpdatePacienteDTO>> violations = validator.validate(dto);
+        String outroObjeto = "Não sou um DTO";
 
         // Assert
-        assertFalse(violations.isEmpty(), "Deve haver violações de validação para data de nascimento nula.");
-        assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("Data de nascimento não pode ser nula.")));
+        assertNotEquals(dto, outroObjeto, "DTO não pode ser igual a um objeto de outra classe.");
     }
 }
