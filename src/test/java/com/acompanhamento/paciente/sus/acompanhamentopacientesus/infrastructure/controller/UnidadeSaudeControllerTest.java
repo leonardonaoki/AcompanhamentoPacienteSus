@@ -91,7 +91,7 @@ class UnidadeSaudeControllerTest {
 
         assertNotNull(response);
         assertEquals(201, response.getStatusCodeValue());
-        assertEquals(mensagemEsperada, response);
+        assertEquals(mensagemEsperada, response.getBody()); // ✅ Comparação correta do corpo da resposta
     }
 
     @Test
@@ -105,7 +105,7 @@ class UnidadeSaudeControllerTest {
 
         assertNotNull(response);
         assertEquals(200, response.getStatusCodeValue());
-        assertEquals(mensagemEsperada, response);
+        assertEquals(mensagemEsperada, response.getBody()); // ✅ Comparação correta do corpo da resposta
     }
 
     @Test
@@ -115,8 +115,7 @@ class UnidadeSaudeControllerTest {
         ResponseEntity<InsertMessageDTO> response = unidadeSaudeController.deletarUnidadeSaude(1L);
 
         assertNotNull(response);
-        assertEquals(204, response.getStatusCodeValue());
-        assertEquals("Unidade de saúde deletada com sucesso", response);
+        assertEquals(204, response.getStatusCodeValue()); // ✅ DELETE retorna apenas status, sem corpo
     }
 
     @Test

@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.*;
 
@@ -134,7 +133,7 @@ class UnidadeSaudeGatewayTest {
 
         InsertMessageDTO resultado = unidadeSaudeGateway.registrarUnidade(unidadeSaudeDomain);
 
-        assertEquals("Unidade de saúde registrada com ID: 1", resultado);
+        assertEquals("Unidade de saúde registrada com ID: 1", resultado.message());
     }
 
     @Test
@@ -145,7 +144,7 @@ class UnidadeSaudeGatewayTest {
 
         InsertMessageDTO resultado = unidadeSaudeGateway.atualizarUnidade(1L, unidadeSaudeDomain);
 
-        assertEquals("Unidade de saúde com ID: 1 foi atualizada.", resultado);
+        assertEquals("Unidade de saúde com ID: 1 foi atualizada.", resultado.message());
     }
 
     @Test
@@ -167,7 +166,7 @@ class UnidadeSaudeGatewayTest {
 
         InsertMessageDTO resultado = unidadeSaudeGateway.deletarUnidade(1L);
 
-        assertEquals("Unidade de saúde com ID: 1 foi deletada.", resultado);
+        assertEquals("Unidade de saúde com ID: 1 foi deletada.", resultado.message());
     }
 
     @Test

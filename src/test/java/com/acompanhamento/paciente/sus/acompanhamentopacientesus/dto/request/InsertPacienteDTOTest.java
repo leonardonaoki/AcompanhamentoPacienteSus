@@ -54,9 +54,13 @@ class InsertPacienteDTOTest {
         // Act
         Set<ConstraintViolation<InsertPacienteDTO>> violations = validator.validate(dto);
 
+        // Debug: Exibe todas as mensagens de erro para entender o problema
+        violations.forEach(v -> System.out.println(v.getPropertyPath() + " -> " + v.getMessage()));
+
         // Assert
         assertFalse(violations.isEmpty(), "Deve haver violações de validação quando o ID não for positivo.");
-        assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("must be greater than 0")));
+        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("idPaciente")),
+                "A violação deve estar relacionada ao idPaciente.");
     }
 
     @Test
@@ -75,6 +79,8 @@ class InsertPacienteDTOTest {
 
         // Assert
         assertFalse(violations.isEmpty(), "Deve haver violações de validação para nome muito curto.");
+        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("nome")),
+                "A violação deve estar relacionada ao nome.");
     }
 
     @Test
@@ -93,6 +99,8 @@ class InsertPacienteDTOTest {
 
         // Assert
         assertFalse(violations.isEmpty(), "Deve haver violações de validação para CPF inválido.");
+        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("cpf")),
+                "A violação deve estar relacionada ao CPF.");
     }
 
     @Test
@@ -111,5 +119,7 @@ class InsertPacienteDTOTest {
 
         // Assert
         assertFalse(violations.isEmpty(), "Deve haver violações de validação para data de nascimento nula.");
+        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("dataNascimento")),
+                "A violação deve estar relacionada à data de nascimento.");
     }
 }

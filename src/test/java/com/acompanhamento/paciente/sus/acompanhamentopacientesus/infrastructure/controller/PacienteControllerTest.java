@@ -5,6 +5,8 @@ import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.request.Ins
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.request.UpdatePacienteDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.PacienteDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.domain.entity.PacienteDomain;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -20,8 +22,6 @@ import java.util.List;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 class PacienteControllerTest {
 
@@ -52,6 +52,9 @@ class PacienteControllerTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(pacienteController).build();
+
+        // ✅ Suporte ao LocalDateTime no JSON
+        objectMapper.registerModule(new JavaTimeModule());
 
         pacienteDTO = new PacienteDTO(
                 1L,
@@ -158,8 +161,9 @@ class PacienteControllerTest {
 
         mockMvc.perform(delete("/1")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk()); // 🔄 Mudança de isNoContent() para isOk()
 
         verify(deletarPacienteUseCase, times(1)).deletarPaciente(1L);
     }
+
 }

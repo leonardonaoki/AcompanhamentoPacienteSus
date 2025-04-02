@@ -46,7 +46,20 @@ class UnidadeSaudeDTOTest {
                 LocalTime.of(17, 30)
         );
 
-        // Act & Assert
-        assertThrows(UnsupportedOperationException.class, () -> dto.getClass().getMethod("setNomeUnidade", String.class));
+        // Act
+        UnidadeSaudeDTO novoDto = new UnidadeSaudeDTO(
+                dto.id(),
+                "Outro Nome", // Tentando "alterar" o nome
+                dto.endereco(),
+                dto.tipoUnidade(),
+                dto.telefone(),
+                dto.horaAbertura(),
+                dto.horaFechamento()
+        );
+
+        // Assert
+        assertNotEquals(dto, novoDto); // Confirma que um novo objeto foi criado
+        assertEquals("Unidade Básica de Saúde", dto.nomeUnidade()); // O objeto original não foi modificado
     }
+
 }

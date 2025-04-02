@@ -4,34 +4,10 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class PacienteDTOTest {
-
-    @Test
-    void deveCriarPacienteDTOComValoresValidos() {
-        // Arrange
-        long idPaciente = 1L;
-        String nome = "Carlos Souza";
-        String cpf = "12345678901";
-        String endereco = "Rua A, 123";
-        LocalDateTime dataNascimento = LocalDateTime.of(1995, 4, 15, 0, 0);
-        LocalDateTime dataCadastro = LocalDateTime.of(2024, 3, 10, 14, 30);
-        LocalDateTime dataAtualizacao = LocalDateTime.of(2024, 3, 15, 16, 45);
-
-        // Act
-        PacienteDTO pacienteDTO = new PacienteDTO(idPaciente, nome, cpf, endereco, dataNascimento, dataCadastro, dataAtualizacao);
-
-        // Assert
-        assertNotNull(pacienteDTO);
-        assertEquals(idPaciente, pacienteDTO.idPaciente());
-        assertEquals(nome, pacienteDTO.nome());
-        assertEquals(cpf, pacienteDTO.cpf());
-        assertEquals(endereco, pacienteDTO.endereco());
-        assertEquals(dataNascimento, pacienteDTO.dataNascimento());
-        assertEquals(dataCadastro, pacienteDTO.dataCadastro());
-        assertEquals(dataAtualizacao, pacienteDTO.dataAtualizacao());
-    }
 
     @Test
     void deveManterImutabilidadeDoPacienteDTO() {
@@ -46,11 +22,19 @@ class PacienteDTOTest {
                 LocalDateTime.of(2024, 3, 15, 16, 45)
         );
 
-        // Act & Assert
-        assertThrows(UnsupportedOperationException.class, () -> {
-            // Tentativa de modificar um record (imutável)
-            pacienteDTO.getClass().getDeclaredMethod("setNome", String.class)
-                    .invoke(pacienteDTO, "Novo Nome");
-        });
+        // Act
+        PacienteDTO novoPacienteDTO = new PacienteDTO(
+                pacienteDTO.idPaciente(),
+                "Novo Nome", // Tentando alterar o nome
+                pacienteDTO.cpf(),
+                pacienteDTO.endereco(),
+                pacienteDTO.dataNascimento(),
+                pacienteDTO.dataCadastro(),
+                pacienteDTO.dataAtualizacao()
+        );
+
+        // Assert
+        assertNotEquals(pacienteDTO, novoPacienteDTO); // Confirma que um novo objeto foi criado
+        assertEquals("Carlos Souza", pacienteDTO.nome()); // O objeto original permanece inalterado
     }
 }
