@@ -26,7 +26,6 @@ public class ControleHistoricoGateway implements IControleHistoricoGateway{
     private static final String ERRO_ID_NAO_ENCONTRADO = "Não foi possível o ID ";
     private final IControleHistoricoPacienteRepository controleHistoricoRepository;
     private final IControleHistoricoPacienteMapper controleHistoricoPacienteMapper;
-
     @Override
     public ControleHistoricoDTO listarHistoricoPacientePorIdControle(Long idControle){
         return controleHistoricoRepository.findById(idControle)

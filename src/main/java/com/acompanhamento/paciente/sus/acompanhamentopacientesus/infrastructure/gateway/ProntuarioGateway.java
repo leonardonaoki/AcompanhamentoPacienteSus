@@ -1,7 +1,7 @@
 package com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure.gateway;
 
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.app.controlehistoricopaciente.AtualizarStatusHistoricoPacienteUseCase;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.domain.entity.ProntuarioPacienteDomain;
-import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.request.UpdateControleHistoricoDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.InsertMessageDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.ProntuarioDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.enums.StatusHistoricoPaciente;
@@ -13,14 +13,11 @@ import com.acompanhamento.paciente.sus.acompanhamentopacientesus.mapper.IProntua
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,9 +27,7 @@ import java.util.List;
 public class ProntuarioGateway implements IProntuarioGateway{
     private final IProntuarioRepository prontuarioRepository;
     private final IProntuarioMapper prontuarioMapper;
-
-    @Value("${controleprontuario-base-path}")
-    private String urlControleProntuario;
+    private final AtualizarStatusHistoricoPacienteUseCase atualizarStatusHistoricoPacienteUseCase;
 
     @Override
     public List<ProntuarioDTO> listarProntuarioPacientePorIdControle(long idControle, String especialidade, LocalDateTime data, String solicitacao, StatusSolicitacaoProntuario statusSolicitacaoProntuario,int offset,int limit){
@@ -53,27 +48,17 @@ public class ProntuarioGateway implements IProntuarioGateway{
     @Override
     @Transactional
     public InsertMessageDTO registrarProntuarioPaciente(ProntuarioPacienteDomain domain){
-        WebClient webClient = WebClient.create(urlControleProntuario);
-        UpdateControleHistoricoDTO updateBody = new UpdateControleHistoricoDTO(StatusHistoricoPaciente.EM_CURSO.toString());
+        StatusHistoricoPaciente novoStatus = StatusHistoricoPaciente.EM_CURSO;
         if(domain.getStatusSolicitacaoProntuario().equals(StatusSolicitacaoProntuario.SOLICITADO) && (domain.getSolicitacao() == null || domain.getSolicitacao().isBlank())){
             throw new IllegalArgumentException("Não é possível mudar o estado para solicitado sem nenhuma solicitação informada.");
         }
         else if (domain.getStatusSolicitacaoProntuario().equals(StatusSolicitacaoProntuario.ENTREGUE) ||
                 domain.getStatusSolicitacaoProntuario().equals(StatusSolicitacaoProntuario.EXAME_REALIZADO))
         {
-            if(domain.getSolicitacao() != null)
-                updateBody = new UpdateControleHistoricoDTO(StatusHistoricoPaciente.RETORNO.toString());
-            else
-                updateBody = new UpdateControleHistoricoDTO(StatusHistoricoPaciente.ENCERRADO.toString());
+            novoStatus = domain.getSolicitacao() != null ? StatusHistoricoPaciente.RETORNO : StatusHistoricoPaciente.ENCERRADO;
         }
         ProntuarioPacienteEntity entitySalvo = prontuarioRepository.save(prontuarioMapper.toEntity(domain));
-        webClient.patch()
-                .uri("/controlehistorico/" + domain.getIdControleHistorico())
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(updateBody)
-                .retrieve()
-                .bodyToMono(String.class);
-
+        atualizarStatusHistoricoPacienteUseCase.atualizarStatusHistoricoPaciente(domain.getIdControleHistorico(),novoStatus);
         return new InsertMessageDTO("ID de registro do prontuário gerado: " + entitySalvo.getId());
     }
 }

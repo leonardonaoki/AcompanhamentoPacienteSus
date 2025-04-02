@@ -4,6 +4,8 @@ import com.acompanhamento.paciente.sus.acompanhamentopacientesus.app.controlehis
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.app.controlehistoricopaciente.ListarHistoricoPacientePorIdControleUseCase;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.app.controlehistoricopaciente.ListarHistoricoPacientePorIdUseCase;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.app.controlehistoricopaciente.RegistrarHistoricoPacienteUseCase;
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.app.paciente.ListarPacientePorIdUseCase;
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.app.unidadesaude.ListarUnidadePorIdUseCase;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.domain.entity.ControleHistoricoPacienteDomain;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.request.UpdateControleHistoricoDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.ControleHistoricoDTO;
@@ -29,8 +31,9 @@ public class ControleHistoricoController implements IControleHistoricoDocumentat
     private final ListarHistoricoPacientePorIdControleUseCase listarHistoricoPacientePorIdControleUseCase;
     private final RegistrarHistoricoPacienteUseCase registrarHistoricoPacienteUseCase;
     private final AtualizarStatusHistoricoPacienteUseCase atualizarStatusHistoricoPacienteUseCase;
+    private final ListarPacientePorIdUseCase listarPacientePorIdUseCase;
+    private final ListarUnidadePorIdUseCase listarUnidadePorIdUseCase;
     private final IControleHistoricoPacienteMapper controleHistoricoPacienteMapper;
-
     @Override
     public ResponseEntity<ControleHistoricoDTO> listarHistoricoPacientePorIdControle(@PathVariable Long idControle){
         return ResponseEntity.ok()
@@ -51,6 +54,9 @@ public class ControleHistoricoController implements IControleHistoricoDocumentat
     @Override
     public ResponseEntity<InsertMessageDTO> registrarHistoricoPaciente(
             @Valid @RequestBody InsertControleHistoricoDTO dto) {
+        //Garante que o Paciente e a Unidade com o ID existe.
+        listarPacientePorIdUseCase.listarPacientePorId(dto.idPaciente());
+        listarUnidadePorIdUseCase.listarUnidadePorId(dto.idUnidade());
         ControleHistoricoPacienteDomain domain = controleHistoricoPacienteMapper.toDomain(dto);
         InsertMessageDTO mensagem = registrarHistoricoPacienteUseCase.registrarHistoricoPaciente(domain);
         return ResponseEntity.status(HttpStatus.CREATED).body(mensagem);

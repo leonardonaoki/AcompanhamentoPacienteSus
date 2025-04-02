@@ -29,7 +29,7 @@ public class ListarUnidadePorIdUseCase {
      *
      * @param id O identificador único da unidade de saúde a ser listada.
      * @return Um objeto {@link UnidadeSaudeDTO} contendo os dados da unidade de saúde.
-     * @throws SomeException Caso ocorra algum erro ao tentar recuperar os dados da unidade de saúde,
+     * @throws jakarta.persistence.EntityNotFoundException Caso ocorra algum erro ao tentar recuperar os dados da unidade de saúde,
      *                       uma exceção pode ser lançada, dependendo da implementação do {@link IUnidadeSaudeGateway}.
      */
     public UnidadeSaudeDTO listarUnidadePorId(long id) {

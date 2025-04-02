@@ -1,7 +1,8 @@
 package com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure.gateway;
 
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.app.controlehistoricopaciente.AtualizarStatusHistoricoPacienteUseCase;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.domain.entity.ProntuarioPacienteDomain;
-import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.request.UpdateControleHistoricoDTO;
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.ControleHistoricoDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.InsertMessageDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.ProntuarioDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.enums.StatusHistoricoPaciente;
@@ -20,9 +21,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.MediaType;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -37,26 +35,10 @@ class ProntuarioGatewayTest {
 
     @Mock
     private IProntuarioMapper prontuarioMapper;
-
     @Mock
-    private WebClient mockWebClient;
-
-    @Mock
-    private WebClient.RequestBodyUriSpec requestBodyUriSpec;
-
-    @Mock
-    private WebClient.RequestBodySpec requestBodySpec;
-
-    @Mock
-    private WebClient.RequestHeadersSpec requestHeadersSpec;
-
-    @Mock
-    private WebClient.ResponseSpec responseSpec;
-
+    private AtualizarStatusHistoricoPacienteUseCase atualizarStatusHistoricoPacienteUseCase;
     @InjectMocks
     private ProntuarioGateway prontuarioGateway;
-    @Captor
-    private ArgumentCaptor<UpdateControleHistoricoDTO> bodyCaptor;
 
     @Test
     void testListarProntuarioPacientePorIdControle() {
@@ -115,33 +97,15 @@ class ProntuarioGatewayTest {
         ProntuarioPacienteEntity entity = new ProntuarioPacienteEntity();
         entity.setId(1L);
 
-        try (MockedStatic<WebClient> webClientMockedStatic = mockStatic(WebClient.class)) {
-            webClientMockedStatic.when(() -> WebClient.create(null)).thenReturn(mockWebClient);
-            // Arrange
-            when(prontuarioMapper.toEntity(domain)).thenReturn(entity);
-            when(prontuarioRepository.save(entity)).thenReturn(entity);
-            mockWebClient();
+        when(prontuarioMapper.toEntity(domain)).thenReturn(entity);
+        when(prontuarioRepository.save(entity)).thenReturn(entity);
+        when(atualizarStatusHistoricoPacienteUseCase.atualizarStatusHistoricoPaciente(anyLong(),any()))
+                .thenReturn(new ControleHistoricoDTO(1,1,1,LocalDateTime.now(),LocalDateTime.now(),StatusHistoricoPaciente.RETORNO));
+        InsertMessageDTO result = prontuarioGateway.registrarProntuarioPaciente(domain);
 
-            // Act
-            InsertMessageDTO result = prontuarioGateway.registrarProntuarioPaciente(domain);
-
-            // Assert
-            assertNotNull(result);
-
-            // Verifica se o WebClient foi criado com a URL correta
-            verify(prontuarioMapper).toEntity(domain);
-            verify(prontuarioRepository).save(entity);
-            verify(mockWebClient).patch();
-            verify(requestBodyUriSpec).uri("/controlehistorico/123");
-            verify(requestBodySpec).contentType(MediaType.APPLICATION_JSON);
-            verify(requestBodySpec).bodyValue(bodyCaptor.capture());
-            verify(requestHeadersSpec).retrieve();
-            verify(responseSpec).bodyToMono(String.class);
-
-            UpdateControleHistoricoDTO sentBody = bodyCaptor.getValue();
-            assertEquals(StatusHistoricoPaciente.EM_CURSO.toString(), sentBody.novoStatus());
-        }
-
+        assertNotNull(result);
+        verify(prontuarioMapper).toEntity(domain);
+        verify(prontuarioRepository).save(entity);
     }
 
     @ParameterizedTest
@@ -154,15 +118,10 @@ class ProntuarioGatewayTest {
         domain.setSolicitacao(arg);
         ProntuarioPacienteEntity entity = new ProntuarioPacienteEntity();
         entity.setId(1L);
-        try (MockedStatic<WebClient> webClientMockedStatic = mockStatic(WebClient.class)) {
-            webClientMockedStatic.when(() -> WebClient.create(null)).thenReturn(mockWebClient);
-            // Act & Assert
-            assertThrows(IllegalArgumentException.class,
-                    () -> prontuarioGateway.registrarProntuarioPaciente(domain));
+        assertThrows(IllegalArgumentException.class,
+                () -> prontuarioGateway.registrarProntuarioPaciente(domain));
 
-            verify(prontuarioRepository, never()).save(any());
-            verify(mockWebClient, never()).patch();
-        }
+        verify(prontuarioRepository, never()).save(any());
     }
 
     @ParameterizedTest()
@@ -174,22 +133,18 @@ class ProntuarioGatewayTest {
         domain.setSolicitacao("Fazer novo exame");
         ProntuarioPacienteEntity entity = new ProntuarioPacienteEntity();
         entity.setId(1L);
-        try (MockedStatic<WebClient> webClientMockedStatic = mockStatic(WebClient.class)) {
-            webClientMockedStatic.when(() -> WebClient.create(null)).thenReturn(mockWebClient);
-            when(prontuarioMapper.toEntity(domain)).thenReturn(entity);
-            when(prontuarioRepository.save(entity)).thenReturn(entity);
+        when(prontuarioMapper.toEntity(domain)).thenReturn(entity);
+        when(prontuarioRepository.save(entity)).thenReturn(entity);
+        when(atualizarStatusHistoricoPacienteUseCase.atualizarStatusHistoricoPaciente(anyLong(),any()))
+                .thenReturn(new ControleHistoricoDTO(1,1,1,LocalDateTime.now(),LocalDateTime.now(),StatusHistoricoPaciente.RETORNO));
+        InsertMessageDTO result = prontuarioGateway.registrarProntuarioPaciente(domain);
 
-            mockWebClient();
-
-            // Act
-            InsertMessageDTO result = prontuarioGateway.registrarProntuarioPaciente(domain);
-
-            // Assert
-            assertNotNull(result);
-            verify(requestBodySpec).bodyValue(bodyCaptor.capture());
-            UpdateControleHistoricoDTO sentBody = bodyCaptor.getValue();
-            assertEquals(StatusHistoricoPaciente.RETORNO.toString(), sentBody.novoStatus());
-        }
+        assertNotNull(result);
+        // Capturando o status passado ao método
+        ArgumentCaptor<StatusHistoricoPaciente> captor = ArgumentCaptor.forClass(StatusHistoricoPaciente.class);
+        verify(atualizarStatusHistoricoPacienteUseCase).atualizarStatusHistoricoPaciente(anyLong(), captor.capture());
+        StatusHistoricoPaciente statusCapturado = captor.getValue();
+        assertEquals(StatusHistoricoPaciente.RETORNO, statusCapturado);
     }
 
     @ParameterizedTest()
@@ -202,31 +157,18 @@ class ProntuarioGatewayTest {
 
         ProntuarioPacienteEntity entity = new ProntuarioPacienteEntity();
         entity.setId(1L);
-        try (MockedStatic<WebClient> webClientMockedStatic = mockStatic(WebClient.class)) {
-            webClientMockedStatic.when(() -> WebClient.create(null)).thenReturn(mockWebClient);
-            when(prontuarioMapper.toEntity(domain)).thenReturn(entity);
-            when(prontuarioRepository.save(entity)).thenReturn(entity);
+        when(prontuarioMapper.toEntity(domain)).thenReturn(entity);
+        when(prontuarioRepository.save(entity)).thenReturn(entity);
 
-            mockWebClient();
+        InsertMessageDTO result = prontuarioGateway.registrarProntuarioPaciente(domain);
 
-            // Act
-            InsertMessageDTO result = prontuarioGateway.registrarProntuarioPaciente(domain);
-
-            // Assert
-            assertNotNull(result);
-            verify(requestBodySpec).bodyValue(bodyCaptor.capture());
-            UpdateControleHistoricoDTO sentBody = bodyCaptor.getValue();
-            assertEquals(StatusHistoricoPaciente.ENCERRADO.toString(), sentBody.novoStatus());
-        }
-    }
-
-    private void mockWebClient() {
-        when(mockWebClient.patch()).thenReturn(requestBodyUriSpec);
-        when(requestBodyUriSpec.uri(anyString())).thenReturn(requestBodySpec);
-        when(requestBodySpec.contentType(MediaType.APPLICATION_JSON)).thenReturn(requestBodySpec);
-        when(requestBodySpec.bodyValue(any(UpdateControleHistoricoDTO.class))).thenReturn(requestHeadersSpec);
-        when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
-        when(responseSpec.bodyToMono(String.class)).thenReturn(Mono.empty());
+        // Assert
+        assertNotNull(result);
+        // Capturando o status passado ao método
+        ArgumentCaptor<StatusHistoricoPaciente> captor = ArgumentCaptor.forClass(StatusHistoricoPaciente.class);
+        verify(atualizarStatusHistoricoPacienteUseCase).atualizarStatusHistoricoPaciente(anyLong(), captor.capture());
+        StatusHistoricoPaciente statusCapturado = captor.getValue();
+        assertEquals(StatusHistoricoPaciente.ENCERRADO, statusCapturado);
     }
 }
 

@@ -30,7 +30,7 @@ public class ListarPacientePorIdUseCase {
      *
      * @param id O identificador único do paciente a ser listado.
      * @return Um objeto {@link PacienteDTO} com os dados do paciente encontrado.
-     * @throws SomeException Caso ocorra algum erro ao tentar recuperar os dados do paciente,
+     * @throws jakarta.persistence.EntityNotFoundException Caso ocorra algum erro ao tentar recuperar os dados do paciente,
      *                       uma exceção pode ser lançada, dependendo da implementação do {@link IPacienteGateway}.
      */
     public PacienteDTO listarPacientePorId(long id) {
