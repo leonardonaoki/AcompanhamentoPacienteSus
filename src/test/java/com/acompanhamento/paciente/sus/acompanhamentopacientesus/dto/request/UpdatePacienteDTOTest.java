@@ -78,26 +78,6 @@ class UpdatePacienteDTOTest {
     }
 
     @Test
-    void deveTestarEqualsEHashCodeComObjetosIguais() {
-        // Arrange
-        UpdatePacienteDTO dto1 = new UpdatePacienteDTO();
-        dto1.setNome("Maria Oliveira");
-        dto1.setCpf("11122233344");
-        dto1.setEndereco("Rua XYZ, 789");
-        dto1.setDataNascimento(LocalDateTime.of(1988, 3, 25, 0, 0));
-
-        UpdatePacienteDTO dto2 = new UpdatePacienteDTO();
-        dto2.setNome("Maria Oliveira");
-        dto2.setCpf("11122233344");
-        dto2.setEndereco("Rua XYZ, 789");
-        dto2.setDataNascimento(LocalDateTime.of(1988, 3, 25, 0, 0));
-
-        // Assert
-        assertEquals(dto1, dto2, "Os objetos devem ser iguais.");
-        assertEquals(dto1.hashCode(), dto2.hashCode(), "Os hashCodes devem ser iguais.");
-    }
-
-    @Test
     void deveTestarEqualsEHashCodeComObjetosDiferentes() {
         // Arrange
         UpdatePacienteDTO dto1 = new UpdatePacienteDTO();
@@ -118,24 +98,6 @@ class UpdatePacienteDTOTest {
     }
 
     @Test
-    void deveTestarToString() {
-        // Arrange
-        UpdatePacienteDTO dto = new UpdatePacienteDTO();
-        dto.setNome("João Pereira");
-        dto.setCpf("55566677788");
-        dto.setEndereco("Rua das Palmeiras, 321");
-        dto.setDataNascimento(LocalDateTime.of(1975, 8, 30, 0, 0));
-
-        // Act
-        String dtoString = dto.toString();
-
-        // Assert
-        assertTrue(dtoString.contains("João Pereira"));
-        assertTrue(dtoString.contains("55566677788"));
-        assertTrue(dtoString.contains("Rua das Palmeiras, 321"));
-    }
-
-    @Test
     void deveTestarEqualsComObjetoNulo() {
         // Arrange
         UpdatePacienteDTO dto = new UpdatePacienteDTO();
@@ -145,7 +107,7 @@ class UpdatePacienteDTOTest {
         dto.setDataNascimento(LocalDateTime.of(1995, 4, 15, 0, 0));
 
         // Assert
-        assertNotEquals(dto, null, "DTO não pode ser igual a null.");
+        assertNotEquals(null, dto, "DTO não pode ser igual a null.");
     }
 
     @Test

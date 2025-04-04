@@ -82,49 +82,4 @@ class UpdateUnidadeSaudeDTOTest {
         assertEquals(horaAbertura, dto.getHoraAbertura());
         assertEquals(horaFechamento, dto.getHoraFechamento());
     }
-
-    @Test
-    void deveTestarEqualsEHashCode() {
-        // Arrange
-        UpdateUnidadeSaudeDTO dto1 = new UpdateUnidadeSaudeDTO();
-        dto1.setNomeUnidade("Hospital X");
-        dto1.setEndereco("Rua ABC, 100");
-        dto1.setTipoUnidade("Hospital");
-        dto1.setTelefone("11999995555");
-        dto1.setHoraAbertura(LocalTime.of(6, 30));
-        dto1.setHoraFechamento(LocalTime.of(20, 0));
-
-        UpdateUnidadeSaudeDTO dto2 = new UpdateUnidadeSaudeDTO();
-        dto2.setNomeUnidade("Hospital X");
-        dto2.setEndereco("Rua ABC, 100");
-        dto2.setTipoUnidade("Hospital");
-        dto2.setTelefone("11999995555");
-        dto2.setHoraAbertura(LocalTime.of(6, 30));
-        dto2.setHoraFechamento(LocalTime.of(20, 0));
-
-        // Assert
-        assertEquals(dto1, dto2, "Os objetos devem ser iguais.");
-        assertEquals(dto1.hashCode(), dto2.hashCode(), "Os hashCodes devem ser iguais.");
-    }
-
-    @Test
-    void deveTestarToString() {
-        // Arrange
-        UpdateUnidadeSaudeDTO dto = new UpdateUnidadeSaudeDTO();
-        dto.setNomeUnidade("Unidade Teste");
-        dto.setEndereco("Rua Teste, 123");
-        dto.setTipoUnidade("Clínica");
-        dto.setTelefone("11912345678");
-        dto.setHoraAbertura(LocalTime.of(9, 0));
-        dto.setHoraFechamento(LocalTime.of(18, 0));
-
-        // Act
-        String dtoString = dto.toString();
-
-        // Assert
-        assertTrue(dtoString.contains("Unidade Teste"));
-        assertTrue(dtoString.contains("Rua Teste, 123"));
-        assertTrue(dtoString.contains("Clínica"));
-        assertTrue(dtoString.contains("11912345678"));
-    }
 }

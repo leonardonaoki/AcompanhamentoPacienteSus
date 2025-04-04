@@ -2,7 +2,8 @@ package com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
@@ -17,7 +18,8 @@ import java.time.LocalDateTime;
  * @param endereco Endereço do paciente.
  * @param dataNascimento Data de nascimento do paciente.
  */
-@Data
+@Getter
+@Setter
 public class UpdatePacienteDTO {
 
     /**

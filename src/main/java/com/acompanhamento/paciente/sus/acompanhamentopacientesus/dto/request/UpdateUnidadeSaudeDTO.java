@@ -2,7 +2,8 @@ package com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalTime;
 
@@ -19,7 +20,8 @@ import java.time.LocalTime;
  * @param horaAbertura Hora de abertura da unidade de saúde.
  * @param horaFechamento Hora de fechamento da unidade de saúde.
  */
-@Data
+@Getter
+@Setter
 public class UpdateUnidadeSaudeDTO {
 
     /**
