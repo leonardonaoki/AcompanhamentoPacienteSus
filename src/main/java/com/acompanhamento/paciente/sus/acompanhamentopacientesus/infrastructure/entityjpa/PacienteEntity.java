@@ -58,6 +58,14 @@ public class PacienteEntity {
      * </p>
      */
     private String endereco;
+    
+    /**
+     * Telefone celular do paciente.
+     * <p>
+     * Este campo armazena o telefone celular do paciente, utilizado para contato e localização.
+     * </p>
+     */
+    private String telefoneCelular;
 
     /**
      * Data de nascimento do paciente.

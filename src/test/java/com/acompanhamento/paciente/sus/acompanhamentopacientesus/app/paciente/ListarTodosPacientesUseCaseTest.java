@@ -28,9 +28,9 @@ class ListarTodosPacientesUseCaseTest {
     void deveRetornarListaDePacientesQuandoExistiremPacientes() {
         // Arrange
         List<PacienteDTO> pacientesMock = List.of(
-                new PacienteDTO(1L, "João Silva", "123.456.789-00", "Rua das Flores, 123",
+                new PacienteDTO(1L, "João Silva", "123.456.789-00", "Rua das Flores, 123","3185056436",
                         LocalDateTime.of(1990, 5, 20, 0, 0), LocalDateTime.now().minusMonths(6), LocalDateTime.now()),
-                new PacienteDTO(2L, "Maria Santos", "987.654.321-00", "Avenida Central, 456",
+                new PacienteDTO(2L, "Maria Santos", "987.654.321-00", "Avenida Central, 456","3185056436",
                         LocalDateTime.of(1985, 10, 15, 0, 0), LocalDateTime.now().minusYears(1), LocalDateTime.now().minusDays(5))
         );
 

@@ -30,6 +30,7 @@ class InsertPacienteDTOTest {
                 "Carlos Souza",
                 "12345678901",
                 "Rua A, 123",
+                "3185056436",
                 LocalDateTime.of(1995, 4, 15, 0, 0)
         );
 
@@ -48,6 +49,7 @@ class InsertPacienteDTOTest {
                 "Carlos Souza",
                 "12345678901",
                 "Rua A, 123",
+                "3185056436",
                 LocalDateTime.of(1995, 4, 15, 0, 0)
         );
 
@@ -71,6 +73,7 @@ class InsertPacienteDTOTest {
                 "AB", // Inválido: mínimo 3 caracteres
                 "12345678901",
                 "Rua A, 123",
+                "3185056436",
                 LocalDateTime.of(1995, 4, 15, 0, 0)
         );
 
@@ -91,6 +94,7 @@ class InsertPacienteDTOTest {
                 "Carlos Souza",
                 "12345", // Inválido: CPF deve ter 11 caracteres
                 "Rua A, 123",
+                "3185056436",
                 LocalDateTime.of(1995, 4, 15, 0, 0)
         );
 
@@ -111,6 +115,7 @@ class InsertPacienteDTOTest {
                 "Carlos Souza",
                 "12345678901",
                 "Rua A, 123",
+                "3185056436",
                 null // Inválido: não pode ser nulo
         );
 
@@ -122,4 +127,6 @@ class InsertPacienteDTOTest {
         assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("dataNascimento")),
                 "A violação deve estar relacionada à data de nascimento.");
     }
+    
+    //TODO teste validação tamanho telefone
 }

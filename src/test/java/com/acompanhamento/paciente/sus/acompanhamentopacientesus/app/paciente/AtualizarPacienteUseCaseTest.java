@@ -38,6 +38,7 @@ class AtualizarPacienteUseCaseTest {
         pacienteDomain.setNome("João Silva");
         pacienteDomain.setCpf("123.456.789-00");
         pacienteDomain.setEndereco("Rua das Flores, 123");
+        pacienteDomain.setTelefone("3185056436");
         pacienteDomain.setDataNascimento(dataNascimento);
         pacienteDomain.setDataCadastro(dataCadastro);
         pacienteDomain.setDataAtualizacao(dataAtualizacao);
@@ -47,6 +48,7 @@ class AtualizarPacienteUseCaseTest {
                 "João Silva Atualizado",
                 "123.456.789-00",
                 "Rua das Flores, 123",
+                "3185056436",
                 dataNascimento,
                 dataCadastro,
                 LocalDateTime.now()
@@ -69,6 +71,7 @@ class AtualizarPacienteUseCaseTest {
         assertEquals(pacienteDTO.nome(), resultado.nome());
         assertEquals(pacienteDTO.cpf(), resultado.cpf());
         assertEquals(pacienteDTO.endereco(), resultado.endereco());
+        assertEquals(pacienteDTO.telefoneCelular(), resultado.telefoneCelular());
         assertEquals(pacienteDTO.dataNascimento(), resultado.dataNascimento());
         assertEquals(pacienteDTO.dataCadastro(), resultado.dataCadastro());
 

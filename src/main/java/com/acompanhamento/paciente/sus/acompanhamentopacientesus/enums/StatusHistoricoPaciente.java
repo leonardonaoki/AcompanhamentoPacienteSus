@@ -6,3 +6,4 @@ public enum StatusHistoricoPaciente {
     RETORNO,
     ENCERRADO
 }
+

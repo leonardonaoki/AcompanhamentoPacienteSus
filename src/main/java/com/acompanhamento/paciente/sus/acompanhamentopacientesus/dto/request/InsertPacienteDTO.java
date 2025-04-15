@@ -28,8 +28,14 @@ public record InsertPacienteDTO(
 
         @Size(max = 255)
         String endereco,
+        
+        @Size(max = 11)
+        String telefoneCelular,
 
         @NotNull
         LocalDateTime dataNascimento
+        
+        
+        
 ) {
 }

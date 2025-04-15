@@ -25,4 +25,16 @@ public class ControleSpecification {
         return (root, query, criteriaBuilder) ->
                 statusHistoricoPaciente == null ? null : criteriaBuilder.equal(root.get("statusControle"), statusHistoricoPaciente);
     }
+    
+    public static Specification<ControleHistoricoPacienteEntity> statusHistoricoEmAberto() {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.or(criteriaBuilder.notEqual(root.get("statusControle"), StatusHistoricoPaciente.PRIMEIRA_CONSULTA),
+        		criteriaBuilder.notEqual(root.get("statusControle"), StatusHistoricoPaciente.ENCERRADO));
+    }
+    
+    public static Specification<ControleHistoricoPacienteEntity> buscaUltimoHistoricoPaciente(StatusHistoricoPaciente statusHistoricoPaciente) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.and(criteriaBuilder.equal(root.get("statusControle"), statusHistoricoPaciente), 
+        		criteriaBuilder.isNotNull(root.get("dataEncerramento")));
+    }
+    
+    
 }

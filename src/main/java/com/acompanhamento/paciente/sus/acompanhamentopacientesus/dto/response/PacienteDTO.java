@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
  * @param nome Nome do paciente.
  * @param cpf CPF do paciente.
  * @param endereco Endereço do paciente.
+ * @param telefoneCelular Telefone para contado do paciente.
  * @param dataNascimento Data de nascimento do paciente.
  * @param dataCadastro Data de cadastro do paciente.
  * @param dataAtualizacao Data da última atualização dos dados do paciente.
@@ -21,6 +22,7 @@ public record PacienteDTO(
         String nome,
         String cpf,
         String endereco,
+        String telefoneCelular,
         LocalDateTime dataNascimento,
         LocalDateTime dataCadastro,
         LocalDateTime dataAtualizacao

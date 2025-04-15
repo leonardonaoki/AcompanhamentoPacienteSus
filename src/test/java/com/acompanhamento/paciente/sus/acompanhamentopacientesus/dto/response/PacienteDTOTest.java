@@ -17,6 +17,7 @@ class PacienteDTOTest {
                 "Carlos Souza",
                 "12345678901",
                 "Rua A, 123",
+                "3185056436",
                 LocalDateTime.of(1995, 4, 15, 0, 0),
                 LocalDateTime.of(2024, 3, 10, 14, 30),
                 LocalDateTime.of(2024, 3, 15, 16, 45)
@@ -28,6 +29,7 @@ class PacienteDTOTest {
                 "Novo Nome", // Tentando alterar o nome
                 pacienteDTO.cpf(),
                 pacienteDTO.endereco(),
+                pacienteDTO.telefoneCelular(),
                 pacienteDTO.dataNascimento(),
                 pacienteDTO.dataCadastro(),
                 pacienteDTO.dataAtualizacao()

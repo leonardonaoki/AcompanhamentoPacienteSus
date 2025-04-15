@@ -31,6 +31,7 @@ class ListarPacientePorIdUseCaseTest {
                 pacienteId,
                 "João Silva",
                 "123.456.789-00",
+                "3185056436",
                 "Rua das Flores, 123",
                 LocalDateTime.of(1990, 5, 20, 0, 0),
                 LocalDateTime.now().minusMonths(6),
@@ -48,6 +49,7 @@ class ListarPacientePorIdUseCaseTest {
         assertEquals(pacienteDTO.nome(), resultado.nome());
         assertEquals(pacienteDTO.cpf(), resultado.cpf());
         assertEquals(pacienteDTO.endereco(), resultado.endereco());
+        assertEquals(pacienteDTO.telefoneCelular(), resultado.telefoneCelular());
         assertEquals(pacienteDTO.dataNascimento(), resultado.dataNascimento());
         assertEquals(pacienteDTO.dataCadastro(), resultado.dataCadastro());
 

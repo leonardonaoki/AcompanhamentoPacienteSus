@@ -19,6 +19,7 @@ public class ControleHistoricoPacienteEntity {
     private long idUnidade;
     private LocalDateTime dataCadastro;
     private LocalDateTime dataAtualizacao;
+    private LocalDateTime dataEncerramento;
     private StatusHistoricoPaciente statusControle;
 }
 

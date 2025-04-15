@@ -35,6 +35,7 @@ public class PacienteMapper implements IPacienteMapper {
                 pacienteEntity.getNome(),
                 pacienteEntity.getCpf(),
                 pacienteEntity.getEndereco(),
+                pacienteEntity.getTelefoneCelular(),
                 pacienteEntity.getDataNascimento(),
                 pacienteEntity.getDataCadastro(),
                 pacienteEntity.getDataAtualizacao()
@@ -53,6 +54,7 @@ public class PacienteMapper implements IPacienteMapper {
         entity.setNome(pacienteDomain.getNome());
         entity.setCpf(pacienteDomain.getCpf());
         entity.setEndereco(pacienteDomain.getEndereco());
+        entity.setTelefoneCelular(pacienteDomain.getTelefone());
         entity.setDataNascimento(pacienteDomain.getDataNascimento());
         entity.setDataCadastro(pacienteDomain.getDataCadastro());
         entity.setDataAtualizacao(pacienteDomain.getDataAtualizacao());
@@ -72,6 +74,7 @@ public class PacienteMapper implements IPacienteMapper {
         domain.setNome(pacienteDTO.nome());
         domain.setCpf(pacienteDTO.cpf());
         domain.setEndereco(pacienteDTO.endereco());
+        domain.setTelefone(pacienteDTO.telefoneCelular());
         domain.setDataNascimento(pacienteDTO.dataNascimento());
         domain.setDataCadastro(pacienteDTO.dataCadastro());
         domain.setDataAtualizacao(pacienteDTO.dataAtualizacao());

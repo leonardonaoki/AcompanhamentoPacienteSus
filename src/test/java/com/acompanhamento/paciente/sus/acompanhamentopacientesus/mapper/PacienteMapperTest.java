@@ -27,6 +27,7 @@ class PacienteMapperTest {
         pacienteEntity.setNome("João Silva");
         pacienteEntity.setCpf("12345678901");
         pacienteEntity.setEndereco("Rua Exemplo, 123");
+        pacienteEntity.setTelefoneCelular("3185056436");
         pacienteEntity.setDataNascimento(LocalDateTime.of(1990, 5, 20, 0, 0));
         pacienteEntity.setDataCadastro(LocalDateTime.now());
         pacienteEntity.setDataAtualizacao(LocalDateTime.now());
@@ -36,6 +37,7 @@ class PacienteMapperTest {
         pacienteDomain.setNome("João Silva");
         pacienteDomain.setCpf("12345678901");
         pacienteDomain.setEndereco("Rua Exemplo, 123");
+        pacienteDomain.setTelefone("3185056436");
         pacienteDomain.setDataNascimento(LocalDateTime.of(1990, 5, 20, 0, 0));
         pacienteDomain.setDataCadastro(LocalDateTime.now());
         pacienteDomain.setDataAtualizacao(LocalDateTime.now());
@@ -45,6 +47,7 @@ class PacienteMapperTest {
                 "João Silva",
                 "12345678901",
                 "Rua Exemplo, 123",
+                "3185056436",
                 LocalDateTime.of(1990, 5, 20, 0, 0),
                 LocalDateTime.now(),
                 LocalDateTime.now()
@@ -60,6 +63,7 @@ class PacienteMapperTest {
         assertThat(resultado.nome()).isEqualTo(pacienteEntity.getNome());
         assertThat(resultado.cpf()).isEqualTo(pacienteEntity.getCpf());
         assertThat(resultado.endereco()).isEqualTo(pacienteEntity.getEndereco());
+        assertThat(resultado.telefoneCelular()).isEqualTo(pacienteEntity.getTelefoneCelular());
         assertThat(resultado.dataNascimento()).isEqualTo(pacienteEntity.getDataNascimento());
         assertThat(resultado.dataCadastro()).isEqualTo(pacienteEntity.getDataCadastro());
         assertThat(resultado.dataAtualizacao()).isEqualTo(pacienteEntity.getDataAtualizacao());
@@ -73,6 +77,7 @@ class PacienteMapperTest {
         assertThat(resultado.getNome()).isEqualTo(pacienteDomain.getNome());
         assertThat(resultado.getCpf()).isEqualTo(pacienteDomain.getCpf());
         assertThat(resultado.getEndereco()).isEqualTo(pacienteDomain.getEndereco());
+        assertThat(resultado.getTelefoneCelular()).isEqualTo(pacienteDomain.getTelefone());
         assertThat(resultado.getDataNascimento()).isEqualTo(pacienteDomain.getDataNascimento());
     }
 
@@ -85,6 +90,7 @@ class PacienteMapperTest {
         assertThat(resultado.getNome()).isEqualTo(pacienteDTO.nome());
         assertThat(resultado.getCpf()).isEqualTo(pacienteDTO.cpf());
         assertThat(resultado.getEndereco()).isEqualTo(pacienteDTO.endereco());
+        assertThat(resultado.getTelefone()).isEqualTo(pacienteDTO.telefoneCelular());
         assertThat(resultado.getDataNascimento()).isEqualTo(pacienteDTO.dataNascimento());
         assertThat(resultado.getDataCadastro()).isEqualTo(pacienteDTO.dataCadastro());
         assertThat(resultado.getDataAtualizacao()).isEqualTo(pacienteDTO.dataAtualizacao());

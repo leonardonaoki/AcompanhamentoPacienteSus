@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
  * Entidade que representa um paciente.
  * <p>
  * Esta classe contém os dados de um paciente, incluindo identificador, nome, CPF, endereço,
- * data de nascimento, data de cadastro e data de atualização.
+ * data de nascimento, telefone ,data de cadastro e data de atualização.
  * </p>
  */
 @Getter
@@ -46,7 +46,13 @@ public class PacienteDomain {
     private LocalDateTime dataCadastro;
 
     /**
+     * telefone para contado do paciente 
+     */
+    private String telefone;
+
+    /**
      * Data da última atualização dos dados do paciente.
      */
     private LocalDateTime dataAtualizacao;
+    
 }

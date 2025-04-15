@@ -86,7 +86,7 @@ class ControleHistoricoControllerTest {
         when(controleHistoricoPacienteMapper.toDomain(insertDTO)).thenReturn(null);
         when(registrarHistoricoPacienteUseCase.registrarHistoricoPaciente(any())).thenReturn(insertMessageDTO);
         when(listarPacientePorIdUseCase.listarPacientePorId(1)).thenReturn(
-                new PacienteDTO(1,"Gilberto","123.456.789-01","Rua teste",LocalDateTime.now(),
+                new PacienteDTO(1,"Gilberto","123.456.789-01","Rua teste","3185056436",LocalDateTime.now(),
                         LocalDateTime.now(),LocalDateTime.now()));
         when(listarUnidadePorIdUseCase.listarUnidadePorId(1)).thenReturn(
                 new UnidadeSaudeDTO(1,"Aclimacao","Rua aclimacao","Saude","12345-789", LocalTime.now(),LocalTime.now()));
@@ -106,7 +106,7 @@ class ControleHistoricoControllerTest {
     void testRegistrarHistoricoPaciente_UnidadeNotFound() {
         InsertControleHistoricoDTO insertDTO = new InsertControleHistoricoDTO(1,1);
         when(listarPacientePorIdUseCase.listarPacientePorId(1)).thenReturn(
-                new PacienteDTO(1,"Gilberto","123.456.789-01","Rua teste",LocalDateTime.now(),
+                new PacienteDTO(1,"Gilberto","123.456.789-01","Rua teste","3185056436",LocalDateTime.now(),
                         LocalDateTime.now(),LocalDateTime.now()));
         when(listarUnidadePorIdUseCase.listarUnidadePorId(1)).thenThrow(EntityNotFoundException.class);
         assertThrows(EntityNotFoundException.class,() ->controller.registrarHistoricoPaciente(insertDTO));

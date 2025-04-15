@@ -30,9 +30,10 @@ class RegistrarPacienteUseCaseTest {
         pacienteDomain.setNome("Carlos Souza");
         pacienteDomain.setCpf("111.222.333-44");
         pacienteDomain.setEndereco("Rua A, 123");
+        pacienteDomain.setTelefone("3185056436");
 
         PacienteDTO pacienteDTO = new PacienteDTO(
-                1L, pacienteDomain.getNome(), pacienteDomain.getCpf(), pacienteDomain.getEndereco(),
+                1L, pacienteDomain.getNome(), pacienteDomain.getCpf(), pacienteDomain.getEndereco(),pacienteDomain.getTelefone(),
                 LocalDateTime.of(1995, 4, 15, 0, 0),
                 LocalDateTime.now(), LocalDateTime.now()
         );
@@ -47,6 +48,7 @@ class RegistrarPacienteUseCaseTest {
         assertEquals("Carlos Souza", resultado.nome());
         assertEquals("111.222.333-44", resultado.cpf());
         assertEquals("Rua A, 123", resultado.endereco());
+        assertEquals("3185056436", resultado.telefoneCelular());
         assertNotNull(pacienteDomain.getDataCadastro());
         assertNotNull(pacienteDomain.getDataAtualizacao());
 

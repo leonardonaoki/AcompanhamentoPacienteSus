@@ -43,6 +43,7 @@ class PacienteGatewayTest {
         pacienteEntity.setNome("Carlos Souza");
         pacienteEntity.setCpf("12345678901");
         pacienteEntity.setEndereco("Rua A, 123");
+        pacienteEntity.setTelefoneCelular("3185056436");
         pacienteEntity.setDataNascimento(LocalDateTime.of(1995, 4, 15, 0, 0));
         pacienteEntity.setDataCadastro(LocalDateTime.now());
         pacienteEntity.setDataAtualizacao(LocalDateTime.now());
@@ -52,6 +53,7 @@ class PacienteGatewayTest {
         pacienteDomain.setNome("Carlos Souza");
         pacienteDomain.setCpf("12345678901");
         pacienteDomain.setEndereco("Rua A, 123");
+        pacienteDomain.setTelefone("3185056436");
         pacienteDomain.setDataNascimento(LocalDateTime.of(1995, 4, 15, 0, 0));
 
         pacienteDTO = new PacienteDTO(
@@ -59,6 +61,7 @@ class PacienteGatewayTest {
                 "Carlos Souza",
                 "12345678901",
                 "Rua A, 123",
+                "3185056436",
                 LocalDateTime.of(1995, 4, 15, 0, 0),
                 LocalDateTime.now(),
                 LocalDateTime.now()

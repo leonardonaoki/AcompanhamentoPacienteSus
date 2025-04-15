@@ -45,5 +45,11 @@ public class UpdatePacienteDTO {
      */
     @NotNull(message = "Data de nascimento não pode ser nula.")
     private LocalDateTime dataNascimento;
+    
+    /**
+     * Telefone para contado paciente
+     */
+    @NotBlank(message = "telefone celular não pode ser vazio")
+    private String telefoneCelular;
 
 }

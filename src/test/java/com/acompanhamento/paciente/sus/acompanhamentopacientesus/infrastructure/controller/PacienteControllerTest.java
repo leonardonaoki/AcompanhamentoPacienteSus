@@ -61,6 +61,7 @@ class PacienteControllerTest {
                 "João Silva",
                 "12345678901",
                 "Rua Exemplo, 123",
+                "3185056436",
                 LocalDateTime.of(1990, 5, 20, 0, 0),
                 LocalDateTime.now(),
                 LocalDateTime.now()
@@ -105,7 +106,7 @@ class PacienteControllerTest {
 
     @Test
     void deveRegistrarPaciente() throws Exception {
-        InsertPacienteDTO dto = new InsertPacienteDTO(1L, "João Silva", "12345678901", "Rua Exemplo, 123", LocalDateTime.of(1990, 5, 20, 0, 0));
+        InsertPacienteDTO dto = new InsertPacienteDTO(1L, "João Silva", "12345678901", "Rua Exemplo, 123","3185056436", LocalDateTime.of(1990, 5, 20, 0, 0));
 
         when(registrarPacienteUseCase.registrarPaciente(any(PacienteDomain.class))).thenReturn(pacienteDTO);
 
@@ -124,6 +125,7 @@ class PacienteControllerTest {
         dto.setNome("João Silva");
         dto.setCpf("12345678901");
         dto.setEndereco("Rua Nova, 456");
+        dto.setTelefoneCelular("3185056436");
         dto.setDataNascimento(LocalDateTime.of(1990, 5, 20, 0, 0));
 
         when(atualizarPacienteUseCase.atualizarPaciente(eq(1L), any(PacienteDomain.class))).thenReturn(pacienteDTO);
