@@ -94,6 +94,16 @@ class ControleHistoricoGatewayTest {
 
         assertNotNull(resultado);
     }
+    @Test
+    void testAtualizarStatusHistoricoPaciente_Encerrado() {
+        when(controleHistoricoRepository.findById(1L)).thenReturn(Optional.of(entity));
+        when(controleHistoricoRepository.save(entity)).thenReturn(entity);
+        when(controleHistoricoPacienteMapper.toDTO(entity)).thenReturn(dto);
+
+        ControleHistoricoDTO resultado = controleHistoricoGateway.atualizarStatusHistoricoPaciente(1L, StatusHistoricoPaciente.ENCERRADO);
+
+        assertNotNull(resultado);
+    }
 
     @Test
     void testAtualizarStatusHistoricoPaciente_NaoEncontrado() {

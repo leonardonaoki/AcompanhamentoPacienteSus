@@ -127,5 +127,33 @@ class ControleSpecificationTest {
 
         assertNull(spec.toPredicate(root, query, criteriaBuilder));
     }
+    @Test
+    void testStatusHistoricoEmAberto() {
+        StatusHistoricoPaciente status = null;
+        Specification<ControleHistoricoPacienteEntity> spec = ControleSpecification.statusHistoricoEmAberto();
+
+        Root<ControleHistoricoPacienteEntity> root = mock(Root.class);
+        CriteriaQuery<?> query = mock(CriteriaQuery.class);
+        CriteriaBuilder criteriaBuilder = mock(CriteriaBuilder.class);
+
+        when(root.get("statusControle")).thenReturn(mock(Path.class));
+        when(criteriaBuilder.equal(any(), eq(status))).thenReturn(mock(Predicate.class));
+
+        assertNull(spec.toPredicate(root, query, criteriaBuilder));
+    }
+    @Test
+    void testBuscaUltimoStatusPaciente() {
+        StatusHistoricoPaciente status = StatusHistoricoPaciente.PRIMEIRA_CONSULTA;
+        Specification<ControleHistoricoPacienteEntity> spec = ControleSpecification.buscaUltimoHistoricoPaciente(status);
+
+        Root<ControleHistoricoPacienteEntity> root = mock(Root.class);
+        CriteriaQuery<?> query = mock(CriteriaQuery.class);
+        CriteriaBuilder criteriaBuilder = mock(CriteriaBuilder.class);
+
+        when(root.get("statusControle")).thenReturn(mock(Path.class));
+        when(criteriaBuilder.equal(any(), eq(status))).thenReturn(mock(Predicate.class));
+
+        assertNull(spec.toPredicate(root, query, criteriaBuilder));
+    }
 }
 

@@ -62,6 +62,8 @@ public class ControleHistoricoGateway implements IControleHistoricoGateway{
 
         entidadeEncontrada.setStatusControle(novoStatus);
         entidadeEncontrada.setDataAtualizacao(LocalDateTime.now());
+        if(novoStatus == StatusHistoricoPaciente.ENCERRADO)
+            entidadeEncontrada.setDataEncerramento(LocalDateTime.now());
 
         ControleHistoricoPacienteEntity entidadeSalva = controleHistoricoRepository.save(entidadeEncontrada);
         return controleHistoricoPacienteMapper.toDTO(entidadeSalva);

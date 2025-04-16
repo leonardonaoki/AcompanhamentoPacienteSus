@@ -30,7 +30,7 @@ class UpdatePacienteDTOTest {
         dto.setCpf("12345678901");
         dto.setEndereco("Rua A, 123");
         dto.setDataNascimento(LocalDateTime.of(1995, 4, 15, 0, 0));
-
+        dto.setTelefoneCelular("11912344587");
         // Act
         Set<ConstraintViolation<UpdatePacienteDTO>> violations = validator.validate(dto);
 
@@ -46,7 +46,7 @@ class UpdatePacienteDTOTest {
         dto.setCpf(null); // Inválido
         dto.setEndereco("   "); // Inválido
         dto.setDataNascimento(null); // Inválido
-
+        dto.setTelefoneCelular(null); // Inválido
         // Act
         Set<ConstraintViolation<UpdatePacienteDTO>> violations = validator.validate(dto);
 
@@ -55,7 +55,7 @@ class UpdatePacienteDTOTest {
 
         // Assert
         assertFalse(violations.isEmpty(), "Deve haver violações de validação.");
-        assertEquals(4, violations.size(), "Deve haver exatamente 4 violações de validação.");
+        assertEquals(5, violations.size(), "Deve haver exatamente 4 violações de validação.");
     }
 
     @Test

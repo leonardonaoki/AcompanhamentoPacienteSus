@@ -24,6 +24,7 @@ class ControleHistoricoPacienteEntityTest {
         long idUnidade = 3L;
         LocalDateTime dataCadastro = LocalDateTime.now();
         LocalDateTime dataAtualizacao = LocalDateTime.now();
+        LocalDateTime dataEncerramento = LocalDateTime.now();
         StatusHistoricoPaciente status = StatusHistoricoPaciente.PRIMEIRA_CONSULTA;
 
         entity.setIdHistoricoPaciente(idHistoricoPaciente);
@@ -32,6 +33,7 @@ class ControleHistoricoPacienteEntityTest {
         entity.setDataCadastro(dataCadastro);
         entity.setDataAtualizacao(dataAtualizacao);
         entity.setStatusControle(status);
+        entity.setDataEncerramento(dataEncerramento);
 
         assertEquals(idHistoricoPaciente, entity.getIdHistoricoPaciente());
         assertEquals(idPaciente, entity.getIdPaciente());
@@ -39,5 +41,6 @@ class ControleHistoricoPacienteEntityTest {
         assertEquals(dataCadastro, entity.getDataCadastro());
         assertEquals(dataAtualizacao, entity.getDataAtualizacao());
         assertEquals(status, entity.getStatusControle());
+        assertEquals(dataAtualizacao, entity.getDataEncerramento());
     }
 }

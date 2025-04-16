@@ -146,6 +146,7 @@ class PacienteControllerTest {
         dto.setCpf("12345678901");
         dto.setEndereco("Rua Nova, 456");
         dto.setDataNascimento(LocalDateTime.of(1990, 5, 20, 0, 0));
+        dto.setTelefoneCelular("11912344567");
 
         when(atualizarPacienteUseCase.atualizarPaciente(eq(1L), any(PacienteDomain.class))).thenReturn(null);
 
