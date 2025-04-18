@@ -1,12 +1,13 @@
 package com.acompanhamento.paciente.sus.acompanhamentopacientesus.mapper;
 
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.domain.entity.UnidadeSaudeDomain;
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.request.InsertUpdateUnidadeSaudeDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.UnidadeSaudeDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure.entityjpa.UnidadeSaudeEntity;
 
 /**
  * Interface responsável por realizar o mapeamento entre as camadas de domínio, DTOs e entidades JPA
- * da entidade {@link UnidadeSaude}.
+ * da entidade
  *
  * Esta interface define métodos para converter entre as representações de {@link UnidadeSaudeDomain} (domínio),
  * {@link UnidadeSaudeDTO} (DTO) e {@link UnidadeSaudeEntity} (entidade JPA), facilitando a troca de informações
@@ -32,7 +33,7 @@ public interface IUnidadeSaudeMapper {
      * @param dto o DTO que será convertido.
      * @return o objeto de domínio correspondente ao DTO.
      */
-    UnidadeSaudeDomain toDomain(UnidadeSaudeDTO dto);
+    UnidadeSaudeDomain toDomain(InsertUpdateUnidadeSaudeDTO dto);
 
     /**
      * Converte um objeto {@link UnidadeSaudeDomain} para uma entidade {@link UnidadeSaudeEntity}.

@@ -16,11 +16,6 @@ import java.time.LocalDateTime;
 @Setter
 public class PacienteDomain {
     /**
-     * Identificador único do paciente.
-     */
-    private long idPaciente;
-
-    /**
      * Nome do paciente.
      */
     private String nome;
@@ -54,5 +49,5 @@ public class PacienteDomain {
      * Data da última atualização dos dados do paciente.
      */
     private LocalDateTime dataAtualizacao;
-    
+
 }

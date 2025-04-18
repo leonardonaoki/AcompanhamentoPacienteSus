@@ -72,7 +72,7 @@ class PacienteControllerTest {
     void deveListarTodosPacientes() throws Exception {
         when(listarTodosPacientesUseCase.listarTodosPacientes()).thenReturn(List.of(pacienteDTO));
 
-        mockMvc.perform(get("/")
+        mockMvc.perform(get("/paciente")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()").value(1))
@@ -85,7 +85,7 @@ class PacienteControllerTest {
     void deveListarPacientePorId() throws Exception {
         when(listarPacientePorIdUseCase.listarPacientePorId(1L)).thenReturn(pacienteDTO);
 
-        mockMvc.perform(get("/1")
+        mockMvc.perform(get("/paciente/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nome").value("João Silva"));
@@ -97,7 +97,7 @@ class PacienteControllerTest {
     void deveRetornarNotFoundQuandoPacienteNaoExiste() throws Exception {
         when(listarPacientePorIdUseCase.listarPacientePorId(1L)).thenReturn(null);
 
-        mockMvc.perform(get("/1")
+        mockMvc.perform(get("/paciente/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
 
@@ -106,11 +106,11 @@ class PacienteControllerTest {
 
     @Test
     void deveRegistrarPaciente() throws Exception {
-        InsertPacienteDTO dto = new InsertPacienteDTO(1L, "João Silva", "12345678901", "Rua Exemplo, 123","3185056436", LocalDateTime.of(1990, 5, 20, 0, 0));
+        InsertPacienteDTO dto = new InsertPacienteDTO( "João Silva", "12345678901", "Rua Exemplo, 123","3185056436", LocalDateTime.of(1990, 5, 20, 0, 0));
 
         when(registrarPacienteUseCase.registrarPaciente(any(PacienteDomain.class))).thenReturn(pacienteDTO);
 
-        mockMvc.perform(post("/")
+        mockMvc.perform(post("/paciente")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isCreated())
@@ -130,7 +130,7 @@ class PacienteControllerTest {
 
         when(atualizarPacienteUseCase.atualizarPaciente(eq(1L), any(PacienteDomain.class))).thenReturn(pacienteDTO);
 
-        mockMvc.perform(put("/1")
+        mockMvc.perform(put("/paciente/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isOk())
@@ -150,7 +150,7 @@ class PacienteControllerTest {
 
         when(atualizarPacienteUseCase.atualizarPaciente(eq(1L), any(PacienteDomain.class))).thenReturn(null);
 
-        mockMvc.perform(put("/1")
+        mockMvc.perform(put("/paciente/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isNotFound());
@@ -162,7 +162,7 @@ class PacienteControllerTest {
     void deveDeletarPaciente() throws Exception {
         doNothing().when(deletarPacienteUseCase).deletarPaciente(1L);
 
-        mockMvc.perform(delete("/1")
+        mockMvc.perform(delete("/paciente/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()); // 🔄 Mudança de isNoContent() para isOk()
 

@@ -5,6 +5,7 @@ import com.acompanhamento.paciente.sus.acompanhamentopacientesus.domain.entity.P
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.request.InsertPacienteDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.request.UpdatePacienteDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.PacienteDTO;
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure.controller.documentation.IPacienteDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -24,14 +25,13 @@ import java.util.List;
  */
 @RestController
 @RequiredArgsConstructor
-public class PacienteController {
+public class PacienteController implements IPacienteDocumentation {
 
     private final ListarTodosPacientesUseCase listarTodosPacientesUseCase;
     private final ListarPacientePorIdUseCase listarPacientePorIdUseCase;
     private final RegistrarPacienteUseCase registrarPacienteUseCase;
     private final AtualizarPacienteUseCase atualizarPacienteUseCase;
     private final DeletarPacienteUseCase deletarPacienteUseCase;
-
     /**
      * Endpoint para listar todos os pacientes registrados no sistema.
      * <p>
@@ -84,6 +84,11 @@ public class PacienteController {
     @PostMapping
     public ResponseEntity<PacienteDTO> registrarPaciente(@Valid @RequestBody InsertPacienteDTO dto) {
         PacienteDomain domain = new PacienteDomain();
+        domain.setNome(dto.nome());
+        domain.setCpf(dto.cpf());
+        domain.setEndereco(dto.endereco());
+        domain.setTelefone(dto.telefoneCelular());
+        domain.setDataNascimento(dto.dataNascimento());
         PacienteDTO pacienteCriado = registrarPacienteUseCase.registrarPaciente(domain);
         return ResponseEntity.status(201).body(pacienteCriado);
     }
@@ -106,6 +111,11 @@ public class PacienteController {
     @PutMapping("/{idPaciente}")
     public ResponseEntity<PacienteDTO> atualizarPaciente(@PathVariable long idPaciente, @Valid @RequestBody UpdatePacienteDTO dto) {
         PacienteDomain domain = new PacienteDomain();
+        domain.setNome(dto.getNome());
+        domain.setCpf(dto.getCpf());
+        domain.setEndereco(dto.getEndereco());
+        domain.setTelefone(dto.getTelefoneCelular());
+        domain.setDataNascimento(dto.getDataNascimento());
         PacienteDTO pacienteAtualizado = atualizarPacienteUseCase.atualizarPaciente(idPaciente, domain);
         return pacienteAtualizado != null ? ResponseEntity.ok(pacienteAtualizado) : ResponseEntity.notFound().build();
     }

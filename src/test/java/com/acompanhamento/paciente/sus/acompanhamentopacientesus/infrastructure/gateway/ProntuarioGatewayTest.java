@@ -67,6 +67,33 @@ class ProntuarioGatewayTest {
         assertNotNull(result);
         assertEquals(1, result.size());
     }
+    @Test
+    void testListarProntuarioPacientePorIdControleComStatusNull() {
+        long idControle = 1L;
+        String especialidade = "Cardiologia";
+        LocalDateTime data = LocalDateTime.now();
+        String solicitacao = "Exame";
+        StatusSolicitacaoProntuario statusSolicitacaoProntuario = null;
+        int offset = 0;
+        int limit = 10;
+
+        ProntuarioPacienteEntity prontuarioPacienteEntity = new ProntuarioPacienteEntity();
+        prontuarioPacienteEntity.setId(1L);
+        prontuarioPacienteEntity.setEspecialidadeMedico("Cardiologia");
+
+        Page<ProntuarioPacienteEntity> page = mock(Page.class);
+        when(page.isEmpty()).thenReturn(false);
+        when(page.stream()).thenReturn(List.of(prontuarioPacienteEntity).stream());
+        when(prontuarioRepository.findAll(any(Specification.class), any(Pageable.class))).thenReturn(page);
+        when(prontuarioMapper.toDTO(any(ProntuarioPacienteEntity.class)))
+                .thenReturn(new ProntuarioDTO(1L,"Cardiologia",LocalDateTime.now(),LocalDateTime.now(),"Exame",StatusSolicitacaoProntuario.SOLICITADO.toString()));
+
+        List<ProntuarioDTO> result = prontuarioGateway.listarProntuarioPacientePorIdControle(
+                idControle, especialidade, data, solicitacao, statusSolicitacaoProntuario, offset, limit);
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+    }
 
     @Test
     void testListarProntuarioPacientePorIdControleThrowsEntityNotFoundException() {

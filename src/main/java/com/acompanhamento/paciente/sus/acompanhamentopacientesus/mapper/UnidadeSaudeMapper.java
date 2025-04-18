@@ -1,13 +1,14 @@
 package com.acompanhamento.paciente.sus.acompanhamentopacientesus.mapper;
 
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.domain.entity.UnidadeSaudeDomain;
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.request.InsertUpdateUnidadeSaudeDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.UnidadeSaudeDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure.entityjpa.UnidadeSaudeEntity;
 import org.springframework.stereotype.Component;
 
 /**
  * Implementação da interface {@link IUnidadeSaudeMapper}, responsável pelo mapeamento entre as camadas de domínio,
- * DTOs e entidades JPA para a entidade {@link UnidadeSaude}.
+ * DTOs e entidades JPA para a entidade .
  *
  * Esta classe converte dados entre as camadas de persistência (entidades JPA), de apresentação (DTOs) e o domínio,
  * garantindo que as informações sejam consistentes ao longo da aplicação.
@@ -45,9 +46,8 @@ public class UnidadeSaudeMapper implements IUnidadeSaudeMapper {
      * @return o objeto de domínio correspondente ao DTO.
      */
     @Override
-    public UnidadeSaudeDomain toDomain(UnidadeSaudeDTO dto) {
+    public UnidadeSaudeDomain toDomain(InsertUpdateUnidadeSaudeDTO dto) {
         UnidadeSaudeDomain domain = new UnidadeSaudeDomain();
-        domain.setId(dto.id());
         domain.setNomeUnidade(dto.nomeUnidade());
         domain.setEndereco(dto.endereco());
         domain.setTipoUnidade(dto.tipoUnidade());
@@ -66,7 +66,6 @@ public class UnidadeSaudeMapper implements IUnidadeSaudeMapper {
     @Override
     public UnidadeSaudeEntity toEntity(UnidadeSaudeDomain domain) {
         UnidadeSaudeEntity entity = new UnidadeSaudeEntity();
-        entity.setId(domain.getId());
         entity.setNomeUnidade(domain.getNomeUnidade());
         entity.setEndereco(domain.getEndereco());
         entity.setTipoUnidade(domain.getTipoUnidade());

@@ -89,10 +89,8 @@ public class UnidadeSaudeGateway implements IUnidadeSaudeGateway {
      * @return Um {@link InsertMessageDTO} com uma mensagem de confirmação.
      */
     @Override
-    @Transactional
     public InsertMessageDTO registrarUnidade(UnidadeSaudeDomain domain) {
         UnidadeSaudeEntity unidadeEntity = unidadeSaudeMapper.toEntity(domain);
-
         UnidadeSaudeEntity entitySalvo = unidadeSaudeRepository.save(unidadeEntity);
 
         // Se necessário, pode-se interagir com outros serviços externos aqui, via WebClient.

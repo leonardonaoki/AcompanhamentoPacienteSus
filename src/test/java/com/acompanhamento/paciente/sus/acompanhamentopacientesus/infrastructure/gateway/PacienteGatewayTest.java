@@ -49,7 +49,6 @@ class PacienteGatewayTest {
         pacienteEntity.setDataAtualizacao(LocalDateTime.now());
 
         pacienteDomain = new PacienteDomain();
-        pacienteDomain.setIdPaciente(1L);
         pacienteDomain.setNome("Carlos Souza");
         pacienteDomain.setCpf("12345678901");
         pacienteDomain.setEndereco("Rua A, 123");

@@ -13,7 +13,6 @@ class PacienteDomainTest {
         // Arrange
         PacienteDomain paciente = new PacienteDomain();
 
-        long idPaciente = 1L;
         String nome = "Carlos Souza";
         String cpf = "111.222.333-44";
         String endereco = "Rua A, 123";
@@ -22,7 +21,6 @@ class PacienteDomainTest {
         LocalDateTime dataAtualizacao = LocalDateTime.now();
 
         // Act
-        paciente.setIdPaciente(idPaciente);
         paciente.setNome(nome);
         paciente.setCpf(cpf);
         paciente.setEndereco(endereco);
@@ -31,7 +29,6 @@ class PacienteDomainTest {
         paciente.setDataAtualizacao(dataAtualizacao);
 
         // Assert
-        assertEquals(idPaciente, paciente.getIdPaciente());
         assertEquals(nome, paciente.getNome());
         assertEquals(cpf, paciente.getCpf());
         assertEquals(endereco, paciente.getEndereco());
@@ -44,7 +41,6 @@ class PacienteDomainTest {
     void devePermitirModificarValores() {
         // Arrange
         PacienteDomain paciente = new PacienteDomain();
-        paciente.setIdPaciente(2L);
         paciente.setNome("Ana Oliveira");
         paciente.setCpf("222.333.444-55");
         paciente.setEndereco("Avenida B, 456");

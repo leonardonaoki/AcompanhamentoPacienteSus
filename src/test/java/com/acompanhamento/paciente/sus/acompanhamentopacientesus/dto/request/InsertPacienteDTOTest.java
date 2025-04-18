@@ -26,7 +26,6 @@ class InsertPacienteDTOTest {
     void deveCriarInsertPacienteDTOComValoresValidos() {
         // Arrange
         InsertPacienteDTO dto = new InsertPacienteDTO(
-                1L,
                 "Carlos Souza",
                 "12345678901",
                 "Rua A, 123",
@@ -42,34 +41,9 @@ class InsertPacienteDTOTest {
     }
 
     @Test
-    void deveFalharQuandoIdPacienteNaoForPositivo() {
-        // Arrange
-        InsertPacienteDTO dto = new InsertPacienteDTO(
-                0L,  // Inválido: deve ser positivo
-                "Carlos Souza",
-                "12345678901",
-                "Rua A, 123",
-                "3185056436",
-                LocalDateTime.of(1995, 4, 15, 0, 0)
-        );
-
-        // Act
-        Set<ConstraintViolation<InsertPacienteDTO>> violations = validator.validate(dto);
-
-        // Debug: Exibe todas as mensagens de erro para entender o problema
-        violations.forEach(v -> System.out.println(v.getPropertyPath() + " -> " + v.getMessage()));
-
-        // Assert
-        assertFalse(violations.isEmpty(), "Deve haver violações de validação quando o ID não for positivo.");
-        assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("idPaciente")),
-                "A violação deve estar relacionada ao idPaciente.");
-    }
-
-    @Test
     void deveFalharQuandoNomeForMuitoCurto() {
         // Arrange
         InsertPacienteDTO dto = new InsertPacienteDTO(
-                1L,
                 "AB", // Inválido: mínimo 3 caracteres
                 "12345678901",
                 "Rua A, 123",
@@ -90,7 +64,6 @@ class InsertPacienteDTOTest {
     void deveFalharQuandoCpfNaoTiver11Caracteres() {
         // Arrange
         InsertPacienteDTO dto = new InsertPacienteDTO(
-                1L,
                 "Carlos Souza",
                 "12345", // Inválido: CPF deve ter 11 caracteres
                 "Rua A, 123",
@@ -111,7 +84,6 @@ class InsertPacienteDTOTest {
     void deveFalharQuandoDataNascimentoForNula() {
         // Arrange
         InsertPacienteDTO dto = new InsertPacienteDTO(
-                1L,
                 "Carlos Souza",
                 "12345678901",
                 "Rua A, 123",
@@ -127,6 +99,4 @@ class InsertPacienteDTOTest {
         assertTrue(violations.stream().anyMatch(v -> v.getPropertyPath().toString().equals("dataNascimento")),
                 "A violação deve estar relacionada à data de nascimento.");
     }
-    
-    //TODO teste validação tamanho telefone
 }

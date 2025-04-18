@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 /**
  * Implementação da interface {@link IPacienteMapper}, responsável por realizar o mapeamento entre as camadas de domínio,
- * DTOs e entidades JPA da entidade {@link Paciente}.
+ * DTOs e entidades JPA da entidade .
  *
  * Esta classe converte os dados da camada de persistência (entidades JPA) para a camada de apresentação (DTOs) e vice-versa.
  * Também é responsável por mapear os dados entre o domínio e as entidades para garantir a consistência dos dados nas camadas do sistema.
@@ -70,7 +70,6 @@ public class PacienteMapper implements IPacienteMapper {
     @Override
     public PacienteDomain toDomain(PacienteDTO pacienteDTO) {
         PacienteDomain domain = new PacienteDomain();
-        domain.setIdPaciente(pacienteDTO.idPaciente());
         domain.setNome(pacienteDTO.nome());
         domain.setCpf(pacienteDTO.cpf());
         domain.setEndereco(pacienteDTO.endereco());

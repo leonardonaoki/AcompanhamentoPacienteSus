@@ -2,8 +2,7 @@ package com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure
 
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.app.unidadesaude.*;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.domain.entity.UnidadeSaudeDomain;
-import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.request.InsertUnidadeSaudeDTO;
-import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.request.UpdateUnidadeSaudeDTO;
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.request.InsertUpdateUnidadeSaudeDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.InsertMessageDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.UnidadeSaudeDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.mapper.IUnidadeSaudeMapper;
@@ -48,8 +47,7 @@ class UnidadeSaudeControllerTest {
 
     private UnidadeSaudeDTO unidadeSaudeDTO;
     private UnidadeSaudeDomain unidadeSaudeDomain;
-    private InsertUnidadeSaudeDTO insertUnidadeSaudeDTO;
-    private UpdateUnidadeSaudeDTO updateUnidadeSaudeDTO;
+    private InsertUpdateUnidadeSaudeDTO insertUpdateUnidadeSaudeDTO;
 
     @BeforeEach
     void setUp() {
@@ -63,18 +61,10 @@ class UnidadeSaudeControllerTest {
                 "11987654321", LocalTime.of(8, 0), LocalTime.of(18, 0)
         );
 
-        insertUnidadeSaudeDTO = new InsertUnidadeSaudeDTO(
+        insertUpdateUnidadeSaudeDTO = new InsertUpdateUnidadeSaudeDTO(
                 "Posto Central", "Rua 100", "Posto",
                 "11987654321", LocalTime.of(8, 0), LocalTime.of(18, 0)
         );
-
-        updateUnidadeSaudeDTO = new UpdateUnidadeSaudeDTO();
-        updateUnidadeSaudeDTO.setNomeUnidade("Posto Atualizado");
-        updateUnidadeSaudeDTO.setEndereco("Rua 200");
-        updateUnidadeSaudeDTO.setTipoUnidade("Clínica");
-        updateUnidadeSaudeDTO.setTelefone("11999999999");
-        updateUnidadeSaudeDTO.setHoraAbertura(LocalTime.of(7, 0));
-        updateUnidadeSaudeDTO.setHoraFechamento(LocalTime.of(19, 0));
     }
 
     @Test
@@ -92,10 +82,10 @@ class UnidadeSaudeControllerTest {
     void deveRegistrarUnidadeSaude() {
         InsertMessageDTO mensagemEsperada = new InsertMessageDTO("Unidade registrada com sucesso");
 
-        when(unidadeSaudeMapper.toDomain(unidadeSaudeDTO)).thenReturn(unidadeSaudeDomain);
+        when(unidadeSaudeMapper.toDomain(insertUpdateUnidadeSaudeDTO)).thenReturn(unidadeSaudeDomain);
         when(registrarUnidadeSaudeUseCase.registrarUnidadeSaude(unidadeSaudeDomain)).thenReturn(mensagemEsperada);
 
-        ResponseEntity<InsertMessageDTO> response = unidadeSaudeController.registrarUnidadeSaude(unidadeSaudeDTO);
+        ResponseEntity<InsertMessageDTO> response = unidadeSaudeController.registrarUnidadeSaude(insertUpdateUnidadeSaudeDTO);
 
         assertNotNull(response);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -106,10 +96,10 @@ class UnidadeSaudeControllerTest {
     void deveAtualizarUnidadeSaude() {
         InsertMessageDTO mensagemEsperada = new InsertMessageDTO("Unidade atualizada com sucesso");
 
-        when(unidadeSaudeMapper.toDomain(unidadeSaudeDTO)).thenReturn(unidadeSaudeDomain);
+        when(unidadeSaudeMapper.toDomain(insertUpdateUnidadeSaudeDTO)).thenReturn(unidadeSaudeDomain);
         when(atualizarUnidadeSaudeUseCase.atualizarUnidade(1L, unidadeSaudeDomain)).thenReturn(mensagemEsperada);
 
-        ResponseEntity<InsertMessageDTO> response = unidadeSaudeController.atualizarUnidadeSaude(1L, unidadeSaudeDTO);
+        ResponseEntity<InsertMessageDTO> response = unidadeSaudeController.atualizarUnidadeSaude(1L, insertUpdateUnidadeSaudeDTO);
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -141,13 +131,13 @@ class UnidadeSaudeControllerTest {
 
     @Test
     void deveRegistrarUnidadeSaudeComInsertDTO() {
-        ResponseEntity<InsertMessageDTO> response = unidadeSaudeController.registrarUnidadeSaude(insertUnidadeSaudeDTO);
-        assertNull(response);  // Como o método não está implementado, deve retornar null
+        ResponseEntity<InsertMessageDTO> response = unidadeSaudeController.registrarUnidadeSaude(insertUpdateUnidadeSaudeDTO);
+        assertNotNull(response);
     }
 
     @Test
     void deveAtualizarUnidadeSaudeComUpdateDTO() {
-        ResponseEntity<InsertMessageDTO> response = unidadeSaudeController.atualizarUnidadeSaude(1L, updateUnidadeSaudeDTO);
-        assertNull(response);  // Como o método não está implementado, deve retornar null
+        ResponseEntity<InsertMessageDTO> response = unidadeSaudeController.atualizarUnidadeSaude(1L, insertUpdateUnidadeSaudeDTO);
+        assertNotNull(response);
     }
 }

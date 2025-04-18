@@ -17,7 +17,7 @@ import java.time.LocalTime;
  * @param horaAbertura Hora de abertura da unidade de saúde.
  * @param horaFechamento Hora de fechamento da unidade de saúde.
  */
-public record InsertUnidadeSaudeDTO(
+public record InsertUpdateUnidadeSaudeDTO(
         @NotBlank(message = "O nome da unidade é obrigatório.")
         String nomeUnidade,
 

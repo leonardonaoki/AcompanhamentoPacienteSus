@@ -36,7 +36,7 @@ public class ProntuarioGateway implements IProntuarioGateway{
                 .and(ProntuarioSpecification.likeEspecialidadeMedico(especialidade))
                 .and(ProntuarioSpecification.greaterThanOrEqualDataInicio(data))
                 .and(ProntuarioSpecification.likeSolicitacao(solicitacao))
-                .and(ProntuarioSpecification.equalsStatusHistorico(statusSolicitacaoProntuario.toString()));
+                .and(ProntuarioSpecification.equalsStatusHistorico(statusSolicitacaoProntuario != null? statusSolicitacaoProntuario.toString() : null));
         Pageable pageable = PageRequest.of(offset,limit);
         Page<ProntuarioPacienteEntity> listaProntuario = prontuarioRepository.findAll(spec,pageable);
 

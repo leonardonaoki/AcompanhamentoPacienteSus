@@ -33,7 +33,6 @@ class PacienteMapperTest {
         pacienteEntity.setDataAtualizacao(LocalDateTime.now());
 
         pacienteDomain = new PacienteDomain();
-        pacienteDomain.setIdPaciente(1L);
         pacienteDomain.setNome("João Silva");
         pacienteDomain.setCpf("12345678901");
         pacienteDomain.setEndereco("Rua Exemplo, 123");
@@ -86,7 +85,6 @@ class PacienteMapperTest {
         PacienteDomain resultado = pacienteMapper.toDomain(pacienteDTO);
 
         assertThat(resultado).isNotNull();
-        assertThat(resultado.getIdPaciente()).isEqualTo(pacienteDTO.idPaciente());
         assertThat(resultado.getNome()).isEqualTo(pacienteDTO.nome());
         assertThat(resultado.getCpf()).isEqualTo(pacienteDTO.cpf());
         assertThat(resultado.getEndereco()).isEqualTo(pacienteDTO.endereco());

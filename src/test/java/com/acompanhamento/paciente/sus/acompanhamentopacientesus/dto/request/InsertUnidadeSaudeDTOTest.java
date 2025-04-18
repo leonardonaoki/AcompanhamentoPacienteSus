@@ -25,7 +25,7 @@ class InsertUnidadeSaudeDTOTest {
     @Test
     void deveCriarInsertUnidadeSaudeDTOComDadosValidos() {
         // Arrange & Act
-        InsertUnidadeSaudeDTO dto = new InsertUnidadeSaudeDTO(
+        InsertUpdateUnidadeSaudeDTO dto = new InsertUpdateUnidadeSaudeDTO(
                 "Hospital Central",
                 "Rua ABC, 123",
                 "Hospital",
@@ -35,7 +35,7 @@ class InsertUnidadeSaudeDTOTest {
         );
 
         // Validação
-        Set<ConstraintViolation<InsertUnidadeSaudeDTO>> violacoes = validator.validate(dto);
+        Set<ConstraintViolation<InsertUpdateUnidadeSaudeDTO>> violacoes = validator.validate(dto);
 
         // Assert
         assertTrue(violacoes.isEmpty(), "Não deve haver violações de validação.");
@@ -44,7 +44,7 @@ class InsertUnidadeSaudeDTOTest {
     @Test
     void deveGerarErroQuandoCamposObrigatoriosNaoForemPreenchidos() {
         // Arrange & Act
-        InsertUnidadeSaudeDTO dto = new InsertUnidadeSaudeDTO(
+        InsertUpdateUnidadeSaudeDTO dto = new InsertUpdateUnidadeSaudeDTO(
                 "", // Nome vazio (Pode falhar em @NotBlank e @Size)
                 null, // Endereço nulo (@NotNull)
                 "  ", // Tipo de unidade apenas com espaços (@NotBlank)
@@ -54,7 +54,7 @@ class InsertUnidadeSaudeDTOTest {
         );
 
         // Validação
-        Set<ConstraintViolation<InsertUnidadeSaudeDTO>> violacoes = validator.validate(dto);
+        Set<ConstraintViolation<InsertUpdateUnidadeSaudeDTO>> violacoes = validator.validate(dto);
 
         // Depuração: Imprime todas as violações encontradas
         violacoes.forEach(v -> System.out.println(v.getPropertyPath() + " -> " + v.getMessage()));

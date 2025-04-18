@@ -34,7 +34,6 @@ class AtualizarPacienteUseCaseTest {
         LocalDateTime dataAtualizacao = LocalDateTime.now().minusDays(1);
 
         pacienteDomain = new PacienteDomain();
-        pacienteDomain.setIdPaciente(1L);
         pacienteDomain.setNome("João Silva");
         pacienteDomain.setCpf("123.456.789-00");
         pacienteDomain.setEndereco("Rua das Flores, 123");

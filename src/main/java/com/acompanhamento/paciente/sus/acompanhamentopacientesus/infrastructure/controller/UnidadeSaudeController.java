@@ -2,8 +2,7 @@ package com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure
 
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.app.unidadesaude.*;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.domain.entity.UnidadeSaudeDomain;
-import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.request.InsertUnidadeSaudeDTO;
-import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.request.UpdateUnidadeSaudeDTO;
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.request.InsertUpdateUnidadeSaudeDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.InsertMessageDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.UnidadeSaudeDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure.controller.documentation.IUnidadeSaudeDocumentation;
@@ -44,7 +43,6 @@ public class UnidadeSaudeController implements IUnidadeSaudeDocumentation {
      * @return O objeto {@link UnidadeSaudeDTO} contendo as informações da unidade de saúde.
      */
     @Override
-    @GetMapping("/unidade/{id}")
     public ResponseEntity<UnidadeSaudeDTO> listarUnidadeSaudePorId(@PathVariable long id) {
         UnidadeSaudeDTO unidadeSaudeDTO = listarUnidadePorIdUseCase.listarUnidadePorId(id);
         return ResponseEntity.ok().body(unidadeSaudeDTO);
@@ -59,9 +57,8 @@ public class UnidadeSaudeController implements IUnidadeSaudeDocumentation {
      * @param dto O objeto {@link UnidadeSaudeDTO} contendo as informações da nova unidade de saúde.
      * @return Uma resposta {@link ResponseEntity} com um código HTTP 201 e uma mensagem indicando que a unidade foi criada.
      */
-    @PostMapping("/unidade")
     @Override
-    public ResponseEntity<InsertMessageDTO> registrarUnidadeSaude(@Valid @RequestBody UnidadeSaudeDTO dto) {
+    public ResponseEntity<InsertMessageDTO> registrarUnidadeSaude(@Valid @RequestBody InsertUpdateUnidadeSaudeDTO dto) {
         UnidadeSaudeDomain domain = unidadeSaudeMapper.toDomain(dto);
         InsertMessageDTO mensagem = registrarUnidadeSaudeUseCase.registrarUnidadeSaude(domain);
         return ResponseEntity.status(HttpStatus.CREATED).body(mensagem);
@@ -77,9 +74,8 @@ public class UnidadeSaudeController implements IUnidadeSaudeDocumentation {
      * @param dto O objeto {@link UnidadeSaudeDTO} contendo os novos dados da unidade de saúde.
      * @return Uma resposta {@link ResponseEntity} com um código HTTP 200 e uma mensagem indicando que a unidade foi atualizada.
      */
-    @PutMapping("/unidade/{id}")
     @Override
-    public ResponseEntity<InsertMessageDTO> atualizarUnidadeSaude(@PathVariable long id, @Valid @RequestBody UnidadeSaudeDTO dto) {
+    public ResponseEntity<InsertMessageDTO> atualizarUnidadeSaude(@PathVariable long id, @Valid @RequestBody InsertUpdateUnidadeSaudeDTO dto) {
         UnidadeSaudeDomain domain = unidadeSaudeMapper.toDomain(dto);
         InsertMessageDTO mensagem = atualizarUnidadeSaudeUseCase.atualizarUnidade(id, domain);
         return ResponseEntity.status(HttpStatus.OK).body(mensagem);
@@ -95,7 +91,6 @@ public class UnidadeSaudeController implements IUnidadeSaudeDocumentation {
      * @return Uma resposta vazia com status HTTP 204, indicando que a unidade foi deletada com sucesso.
      */
     @Override
-    @DeleteMapping("/unidade/{id}")
     public ResponseEntity<InsertMessageDTO> deletarUnidadeSaude(@PathVariable long id) {
         InsertMessageDTO mensagem = new InsertMessageDTO("Unidade de saúde deletada com sucesso");
         deletarUnidadeSaudeUseCase.deletarUnidade(id);
@@ -113,22 +108,10 @@ public class UnidadeSaudeController implements IUnidadeSaudeDocumentation {
      * @return Uma lista de objetos {@link UnidadeSaudeDTO} contendo as unidades de saúde.
      */
     @Override
-    @GetMapping("/unidade")
     public ResponseEntity<List<UnidadeSaudeDTO>> listarUnidadesSaude(
             @RequestParam(value = "_offset", required = false, defaultValue = "0") int offset,
             @RequestParam(value = "_limit", required = false, defaultValue = "10") int limit) {
         List<UnidadeSaudeDTO> unidadesSaude = listarTodasUnidadePorIdUseCase.listarTodasUnidades();
         return ResponseEntity.ok().body(unidadesSaude);
-    }
-
-    // Métodos restantes não implementados
-    @Override
-    public ResponseEntity<InsertMessageDTO> registrarUnidadeSaude(InsertUnidadeSaudeDTO dto) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<InsertMessageDTO> atualizarUnidadeSaude(long id, UpdateUnidadeSaudeDTO dto) {
-        return null;
     }
 }

@@ -1,6 +1,7 @@
 package com.acompanhamento.paciente.sus.acompanhamentopacientesus.mapper;
 
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.domain.entity.UnidadeSaudeDomain;
+import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.request.InsertUpdateUnidadeSaudeDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.dto.response.UnidadeSaudeDTO;
 import com.acompanhamento.paciente.sus.acompanhamentopacientesus.infrastructure.entityjpa.UnidadeSaudeEntity;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,8 +46,7 @@ class UnidadeSaudeMapperTest {
 
     @Test
     void deveConverterDTOParaDomain() {
-        UnidadeSaudeDTO dto = new UnidadeSaudeDTO(
-                1L,
+        InsertUpdateUnidadeSaudeDTO dto = new InsertUpdateUnidadeSaudeDTO(
                 "Posto de Saúde Centro",
                 "Avenida Brasil, 200",
                 "Posto de Saúde",
@@ -58,7 +58,6 @@ class UnidadeSaudeMapperTest {
         UnidadeSaudeDomain domain = unidadeSaudeMapper.toDomain(dto);
 
         assertNotNull(domain);
-        assertEquals(1L, domain.getId());
         assertEquals("Posto de Saúde Centro", domain.getNomeUnidade());
         assertEquals("Avenida Brasil, 200", domain.getEndereco());
         assertEquals("Posto de Saúde", domain.getTipoUnidade());
@@ -82,7 +81,6 @@ class UnidadeSaudeMapperTest {
         UnidadeSaudeEntity entity = unidadeSaudeMapper.toEntity(domain);
 
         assertNotNull(entity);
-        assertEquals(2L, entity.getId());
         assertEquals("Clínica Popular", entity.getNomeUnidade());
         assertEquals("Rua das Flores, 50", entity.getEndereco());
         assertEquals("Clínica", entity.getTipoUnidade());
